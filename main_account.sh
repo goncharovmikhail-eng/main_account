@@ -2,6 +2,9 @@
 
 if ! stat /home/goncharov/.zshrc.pre-oh-my-zsh &> /dev/null; then
     echo "Zsh не найден, устанавливаем..."
+    sudo apt update
+    sudo apt install -y zsh
+    echo "Настраиваем..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     sed -i 's/ZSH_THEME="[^"]*"/ZSH_THEME="3den"/' ~/.zshrc
 else
