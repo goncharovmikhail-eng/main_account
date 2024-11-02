@@ -1,5 +1,5 @@
 echo '# запуск ssh-agent и добавление ключей' >> ~/.bashrc
-echo 'eval $(ssh-agent -s)' >> ~/.bashrc
+#echo 'eval $(ssh-agent -s)' >> ~/.bashrc
 echo 'ssh-add ~/.ssh/work/mcart_deploy' >> ~/.bashrc
 echo 'ssh-add ~/.ssh/work/goncharov_work' >> ~/.bashrc
 echo 'ssh-add ~/.ssh/life/life' >> ~/.bashrc
