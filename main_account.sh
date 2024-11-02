@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sudo apt update && sudo apt upgrade
 if ! stat /home/goncharov/.zshrc.pre-oh-my-zsh &> /dev/null; then
     echo "Zsh не найден, устанавливаем..."
     sudo apt update
