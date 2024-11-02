@@ -13,9 +13,9 @@ if [[ "$add_keys" == "y" || "$add_keys" == "Y" ]]; then
     chmod +x setup-ssh-keys.sh
     ./setup-ssh-keys.sh
 fi
-if ! grep -Fxq "source alias.sh" ~/.bashrc; then
-    echo 'source alias.sh' >> ~/.bashrc
-    echo 'source alias.sh' >> ~/.zshrc
+if ! grep -Fxq "source /home/$USER/life/alias.sh" ~/.bashrc; then
+    echo 'source /home/$USER/life/main_account/alias.sh' >> ~/.bashrc
+    echo 'source /home/$USER/life/main_account/alias.sh' >> ~/.zshrc
 fi
 if ! grep -Fxq "exec zsh" ~/.bashrc; then
     echo 'exec zsh' >> ~/.bashrc
