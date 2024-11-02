@@ -20,4 +20,5 @@ fi
 if ! grep -Fxq "exec zsh" ~/.bashrc; then
     echo 'exec zsh' >> ~/.bashrc
 fi
+less ~/.zshrc
 echo "Настройка завершена. Перезапустите терминал, чтобы применить изменения."
