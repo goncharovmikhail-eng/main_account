@@ -23,5 +23,14 @@ fi
 if ! grep -Fxq "exec zsh" ~/.bashrc; then
     echo 'exec zsh' >> ~/.bashrc
 fi
+
+read -p "Запустить yc_install.sh? (y/n): " run_yc_install
+if [[ "$run_yc_install" == "y" || "$run_yc_install" == "Y" ]]; then
+    chmod +x yc_install.sh
+    ./yc_install.sh
+else
+    echo "Пропущен запуск yc_install.sh"
+fi
+
 less ~/.zshrc
 echo "Настройка завершена. Перезапустите терминал, чтобы применить изменения."

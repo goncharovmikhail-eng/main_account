@@ -35,3 +35,4 @@ alias pj="cd /home/$USER/mcart/project/ && ls -lah"
 alias ro="cd /home/$USER/mcart/roles/ && ls -lah"
 #work
 alias daisy='ssh 95.213.175.60'
+alias workcloud="yc init --federation-id=bpf7ckgu1acbcas8na7r"
