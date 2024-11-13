@@ -9,5 +9,5 @@ echo "if [ -f '/home/goncharov/yandex-cloud/path.bash.inc' ]; then source '/home
 echo "# The next line enables shell command completion for yc." >> ~/.zshrc
 echo "if [ -f '/home/goncharov/yandex-cloud/completion.bash.inc' ]; then source '/home/goncharov/yandex-cloud/completion.bash.inc'; fi" >> ~/.zshrc
 
-echo "Installation YC complete. Please reboot your terminal, then run 'yc init' for personal setup or use alias 'workcloud' if configured."
+echo "Installation YC complete. Please reboot your terminal, then first run 'yc init' for personal setup,then use alias 'workcloud' if configured."
 
