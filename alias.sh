@@ -31,5 +31,7 @@ fi
 }
 alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
-alias pj="cd /home/m.goncharov/mcart/project/ && ls -lah"
-alias ro="cd /home/m.goncharov/mcart/roles/ && ls -lah"
+alias pj="cd /home/$USER/mcart/project/ && ls -lah"
+alias ro="cd /home/$USER/mcart/roles/ && ls -lah"
+#work
+alias daisy='ssh 95.213.175.60'
