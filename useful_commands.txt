@@ -1,0 +1,7 @@
+Как сменить пользователя по-умолчанию для wsl:
+1. Открываем Powershell от имени администратора
+2. wsl --list --verbose 
+3. <DistributionName> config --default-user <Username>
+4. wsl ~ - проверка из powershell
+---
+
