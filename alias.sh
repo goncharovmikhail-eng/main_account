@@ -36,3 +36,11 @@ alias ro="cd /home/$USER/mcart/roles/ && ls -lah"
 #work
 alias daisy='ssh 95.213.175.60'
 alias workcloud="yc init --federation-id=bpf7ckgu1acbcas8na7r"
+alias tasksc="cat ~/mcart/tasks"
+alias tasksw="nano ~/mcart/tasks"
+alias aliasw="nano ~/life/main_account/alias.sh"
+alias aliasc="cat ~/life/main_account/alias.sh | grep $1"
+alias passwdc="cat ~/passwd | grep $1"
+alias passwdw="nano ~/passwd"
+alias infrawork="cd /home/goncharov/mcart/mcart-infrastructure"
+alias jump="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
