@@ -45,5 +45,46 @@ alias passwdw="nano ~/passwd"
 alias infrawork="cd /home/goncharov/mcart/mcart-infrastructure"
 alias jump="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
 alias mcart="cd /home/goncharov/mcart/"
-alias sqlstart="yc managed-postgresql cluster start c9qp0gj6k28snf6eqve1 --async"
-alias sqlstop="yc managed-postgresql cluster stop c9qp0gj6k28snf6eqve1 --async"
+alias sqlstart="yc managed-postgresql cluster start $1 --async"
+alias sqlstop="yc managed-postgresql cluster stop $1 --async"
+sqlcreate() {
+    # Переменные для настроек
+    local cluster_name="study"
+    local backup_id="c9qp0gj6k28snf6eqve1:c9qlh1cgs35qqd7q6vak"
+    local zone_id="ru-central1-a"
+    local subnet_id="e9bju8hvmvomjsvel06v"
+    local network_name="default"
+    local disk_type="network-hdd"
+    local disk_size=10
+    local labels="goncharov=study"
+
+    # Восстановление кластера
+    yc managed-postgresql cluster restore \
+        --name "$cluster_name" \
+        --backup-id "$backup_id" \
+        --host "zone-id=$zone_id,subnet-id=$subnet_id" \
+        --network-name "$network_name" \
+        --disk-type "$disk_type" \
+        --disk-size "$disk_size" \
+        --labels "$labels" \
+
+    if [ $? -eq 0 ]; then
+        echo "Кластер восстановлен успешно. Пытаюсь включить WebSQL."
+        # Обновление кластера для включения WebSQL
+        yc managed-postgresql cluster update \
+            --name "$cluster_name" \
+            --websql-access
+    else
+        echo "Ошибка при восстановлении кластера. WebSQL не будет включён."
+        return 1
+    fi
+
+    echo "Операция завершена."
+}
+
+sqldel() {
+    local cluster_name=$1
+    yc managed-postgresql cluster delete \
+    --name "$cluster_name"
+    --async
+}
