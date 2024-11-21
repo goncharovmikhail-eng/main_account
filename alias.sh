@@ -34,7 +34,7 @@ alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
 alias pj="cd /home/$USER/mcart/project/ && ls -lah"
 alias ro="cd /home/$USER/mcart/roles/ && ls -lah"
 #work
-alias daisy='ssh 95.213.175.60'
+alias daisy='ssh mcart@95.213.175.60'
 alias workcloud="yc init --federation-id=bpf7ckgu1acbcas8na7r"
 alias tasksc="cat ~/mcart/tasks"
 alias tasksw="nano ~/mcart/tasks"
@@ -44,3 +44,6 @@ alias passwdc="cat ~/passwd | grep $1"
 alias passwdw="nano ~/passwd"
 alias infrawork="cd /home/goncharov/mcart/mcart-infrastructure"
 alias jump="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
+alias mcart="cd /home/goncharov/mcart/"
+alias sqlstart="yc managed-postgresql cluster start c9qp0gj6k28snf6eqve1 --async"
+alias sqlstop="yc managed-postgresql cluster stop c9qp0gj6k28snf6eqve1 --async"
