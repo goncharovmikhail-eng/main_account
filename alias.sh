@@ -105,3 +105,12 @@ gitnew() {
     git push -u origin main
 }
 
+gitpush() {
+    if [ -z "$1" ]; then
+        echo "describe the changes"
+        return 1
+    fi
+    git add .
+    git commit -m "$1"
+    git push
+}
