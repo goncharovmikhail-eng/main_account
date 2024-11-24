@@ -58,6 +58,8 @@ sqlcreate() {
     local disk_size=10
     local labels="goncharov=study"
 
+    echo "процесс займет около 12 минут"
+
     # Восстановление кластера
     yc managed-postgresql cluster restore \
         --name "$cluster_name" \
