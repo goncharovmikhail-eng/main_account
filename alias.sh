@@ -90,3 +90,18 @@ sqldel() {
     --name "$cluster_name"
     --async
 }
+
+gitnew() {
+    if [ -z "$1" ]; then
+        echo "Usage: git_init_push <repository_url>"
+        return 1
+    fi
+
+    git init
+    git add .
+    git commit -m "first commit"
+    git branch -M main
+    git remote add origin "$1"
+    git push -u origin main
+}
+
