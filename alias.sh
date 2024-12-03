@@ -50,6 +50,7 @@ alias jump="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
 alias mcart="cd /home/goncharov/mcart/"
 alias sqlstart="yc managed-postgresql cluster start $1 --async"
 alias sqlstop="yc managed-postgresql cluster stop $1 --async"
+
 sqlcreate() {
     # Переменные для настроек
     local cluster_name="study"
