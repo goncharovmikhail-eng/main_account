@@ -29,6 +29,8 @@ else
 history | grep -i $1
 fi
 }
+alias life="cd ~/life"
+alias work="cd ~/work"
 alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
 alias pj="cd /home/$USER/mcart/project/ && ls -lah"
@@ -98,6 +100,7 @@ gitnew() {
     fi
 
     git init
+    touch .gitignore README.md
     git add .
     git commit -m "first commit"
     git branch -M main

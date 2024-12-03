@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Обновляем и апгрейдим систему"
 sudo apt update && sudo apt upgrade
 if ! stat /home/goncharov/.zshrc.pre-oh-my-zsh &> /dev/null; then
     echo "Zsh не найден, устанавливаем..."
@@ -10,7 +11,7 @@ if ! stat /home/goncharov/.zshrc.pre-oh-my-zsh &> /dev/null; then
 else
     echo "Zsh уже установлен"
 fi
-read -p "Добавить SSH-ключи? (y/n): " add_keys
+read -p "Добавить SSH-ключи (рекомендуется после смены оболочки на zsh)? (y/n): " add_keys
 
 if [[ "$add_keys" == "y" || "$add_keys" == "Y" ]]; then
     chmod +x setup-ssh-keys.sh
