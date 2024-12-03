@@ -35,6 +35,7 @@ alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
 alias pj="cd /home/$USER/mcart/project/ && ls -lah"
 alias ro="cd /home/$USER/mcart/roles/ && ls -lah"
+alias gs="git status"
 #work
 alias daisy='ssh mcart@95.213.175.60'
 alias workcloud="yc init --federation-id=bpf7ckgu1acbcas8na7r"

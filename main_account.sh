@@ -40,8 +40,7 @@ less ~/.zshrc
 read -p "Install docker?" answer
 
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-    git clone git@github.com:gmomainsystem/docker-init.git
-    chmod +x docker-init/docker-install.sh
-    ./docker-init/docker-install.sh
+    chmod +x docker-install.sh
+    ./docker-install.sh
 fi
 echo "Настройка завершена. Перезапустите терминал, чтобы применить изменения."
