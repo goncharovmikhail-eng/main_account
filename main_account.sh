@@ -11,6 +11,9 @@ if ! stat /home/goncharov/.zshrc.pre-oh-my-zsh &> /dev/null; then
 else
     echo "Zsh уже установлен"
 fi
+sudo apt install ansible
+echo "Устанавливаем Ansible"
+
 read -p "Добавить SSH-ключи (рекомендуется после смены оболочки на zsh)? (y/n): " add_keys
 
 if [[ "$add_keys" == "y" || "$add_keys" == "Y" ]]; then
@@ -34,4 +37,11 @@ else
 fi
 
 less ~/.zshrc
+read -p "Install docker?" answer
+
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+    git clone git@github.com:gmomainsystem/docker-init.git
+    chmod +x docker-init/docker-install.sh
+    ./docker-init/docker-install.sh
+fi
 echo "Настройка завершена. Перезапустите терминал, чтобы применить изменения."
