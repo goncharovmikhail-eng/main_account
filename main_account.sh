@@ -20,7 +20,7 @@ if [[ "$add_keys" == "y" || "$add_keys" == "Y" ]]; then
     chmod +x setup-ssh-keys.sh
     ./setup-ssh-keys.sh
 fi
-if ! grep -Fxq "source /home/$USER/life/alias.sh" ~/.bashrc; then
+if ! grep -Fxq "source /home/$USER/life/alias.sh" ~/.bashrc || ! grep -Fxq "source /home/$USER/life/alias.sh" ~/.zshrc; then
     echo 'source /home/$USER/life/main_account/alias.sh' >> ~/.bashrc
     echo 'source /home/$USER/life/main_account/alias.sh' >> ~/.zshrc
 fi
@@ -42,5 +42,17 @@ read -p "Install docker?" answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     chmod +x docker-install.sh
     ./docker-install.sh
+else
+    echo "docker pass"
 fi
+
+read -p "install s3cmd?" answer
+
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+    chmod +x s3cmd.sh
+    ./s3cmd.sh
+else
+    echo "s3cmd pass"
+fi
+
 echo "Настройка завершена. Перезапустите терминал, чтобы применить изменения."
