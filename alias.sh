@@ -1,3 +1,26 @@
+function passwdc() {
+    local decrypted_file="/home/$USER/passwd"
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
+    cat $decrypted_file | grep $1
+    shred -u $decrypted_file
+}
+function passwdw() {
+    local decrypted_file="/home/$USER/passwd"
+    local encrypt_file="/home/$USER/passwd.gpg"
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
+    nano $decrypted_file
+    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
+    shred -u $decrypted_file
+}
+function passwdvars() {
+    local decrypted_file="/home/$USER/passwd_variable.sh"
+    local encrypt_file="/home/$USER/passwd_variable.sh.gpg"
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
+    nano $decrypted_file
+    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
+    shred -u $decrypted_file
+}
+
 mreq(){
   rm -rf ./roles
   cat requirements.yml | grep -v ^# | grep https://gitlab.mcart.ru > /dev/null 2>&1
@@ -43,8 +66,8 @@ alias tasksc="cat ~/mcart/tasks"
 alias tasksw="nano ~/mcart/tasks"
 alias aliasw="nano ~/life/main_account/alias.sh"
 alias aliasc="cat ~/life/main_account/alias.sh | grep $1"
-alias passwdc="cat ~/passwd | grep $1"
-alias passwdw="nano ~/passwd"
+#alias passwdc="cat ~/passwd | grep $1"
+#alias passwdw="nano ~/passwd"
 alias infrawork="cd /home/goncharov/mcart/mcart-infrastructure"
 alias jump="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
 alias mcart="cd /home/goncharov/mcart/"

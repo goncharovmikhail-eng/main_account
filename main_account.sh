@@ -52,4 +52,18 @@ else
     echo "s3cmd pass"
 fi
 
+read -p "gpg setting? " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+    read -p "generate new gpg-key? " answer
+    if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+        gpg --full-generate-key
+    fi
+    echo "default-cache-ttl 3600" > ~/.gnupg/gpg-agent.conf  # Кэш на 1 час
+    echo "max-cache-ttl 21600" >> ~/.gnupg/gpg-agent.conf
+    gpgconf --kill gpg-agent
+    gpgconf --launch gpg-agent
+else
+    echo "gpg pass"
+fi
+
 echo "Настройка завершена. Перезапустите терминал, чтобы применить изменения."
