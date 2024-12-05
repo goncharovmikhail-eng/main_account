@@ -1,3 +1,5 @@
+alias ltasks="nano /home/goncharov/life/main_account/ltasks"
+alias wtasks="nano /home/goncharov/work/wtasks"
 function passwdc() {
     local decrypted_file="/home/$USER/passwd"
     gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
@@ -52,8 +54,8 @@ else
 history | grep -i $1
 fi
 }
-alias life="cd ~/life"
-alias work="cd ~/work"
+alias life="cd ~/life && ls -lah"
+alias work="cd ~/work && ls -lah"
 alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
 alias pj="cd /home/$USER/mcart/project/ && ls -lah"
