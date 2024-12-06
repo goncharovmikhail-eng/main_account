@@ -1,3 +1,50 @@
+alias vmyc="ssh -l yc-user $1"
+alias vminfo="yc compute instance get --name $1"
+alias vmall="yc compute instance list"
+vmycr() {
+  IMAGE_ID="fd8pkn4ct4ofk1o43m2b" 
+  INSTANCE_NAME="$1"        
+  ZONE="ru-central1-b"      
+
+  yc compute instance create \
+    --name $INSTANCE_NAME \
+    --zone $ZONE \
+    --create-disk image-id=$IMAGE_ID,size=20GB,type=network-hdd \
+    --hostname $INSTANCE_NAME \
+    --memory 4GB \
+    --cores 2 \
+    --core-fraction 20 \
+    --network-interface subnet-name=default-ru-central1-b,nat-ip-version=ipv4 \
+    --service-account-id ajegk5u8vber4anhht1v \
+    --preemptible \
+    --ssh-key /home/$USER/.ssh/life/life.pub \
+    --async
+}
+
+vmycstop() {
+  local INSTANCE_NAME=$1
+  if [[ -z $INSTANCE_NAME ]]; then
+    echo "Укажите имя ВМ для остановки. Функция для yc"
+    return 1
+  fi
+
+  yc compute instance stop --name "$INSTANCE_NAME" --async && \
+  echo "ВМ '$INSTANCE_NAME' остановлена." || \
+  echo "Ошибка: не удалось остановить ВМ '$INSTANCE_NAME'."
+}
+
+vmycdel() {
+  local INSTANCE_NAME=$1
+  if [[ -z $INSTANCE_NAME ]]; then
+    echo "Укажите имя ВМ для удаления. Функция для yc"
+    return 1
+  fi
+
+  yc compute instance delete --name "$INSTANCE_NAME" --async && \
+  echo "ВМ '$INSTANCE_NAME' удалена." || \
+  echo "Ошибка: не удалось удалить ВМ '$INSTANCE_NAME'."
+}
+
 alias ltasks="nano /home/goncharov/life/main_account/ltasks"
 alias wtasks="nano /home/goncharov/work/wtasks"
 function passwdc() {

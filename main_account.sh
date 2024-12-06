@@ -60,8 +60,8 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     fi
     echo "default-cache-ttl 3600" > ~/.gnupg/gpg-agent.conf  # Кэш на 1 час
     echo "max-cache-ttl 21600" >> ~/.gnupg/gpg-agent.conf
-    gpgconf --kill gpg-agent
-    gpgconf --launch gpg-agent
+    echo "gpgconf --kill gpg-agent" >> ~/.zshrc
+    echo "gpgconf --launch gpg-agent" >> ~/.zshrc
 else
     echo "gpg pass"
 fi
