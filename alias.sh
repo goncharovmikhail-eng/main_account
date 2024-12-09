@@ -47,6 +47,12 @@ vmycdel() {
 
 alias ltasks="nano /home/goncharov/life/main_account/ltasks"
 alias wtasks="nano /home/goncharov/work/wtasks"
+function newsecret() {
+    local file="$1"
+    nano $1
+    gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
+    shred -u $file
+}
 function passwdc() {
     local decrypted_file="/home/$USER/passwd"
     gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
