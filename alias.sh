@@ -111,12 +111,6 @@ function newsecret() {
     gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
     shred -u $file
 }
-function secretread() {
-    local file="$1"
-    gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
-    less $1
-    shred -u $file
-}
 function passwdc() {
     local decrypted_file="/home/$USER/passwd"
     gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
