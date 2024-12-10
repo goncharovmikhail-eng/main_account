@@ -1,3 +1,30 @@
+gitcheck() {
+  local answer="full"
+  find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
+    echo "Проверяем $dir..."
+    cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
+    if [[ -n $(git status --porcelain) ]]; then
+      echo "Незакоммиченные изменения найдены в $dir."
+      read -r answer
+        git add . && git commit -m "$answer"
+        echo "Изменения закоммичены в $dir. с сообщением full. Не забывай комитить"
+    else
+      echo "Нет незакоммиченных изменений в $dir."
+    fi
+    cd - >/dev/null || exit
+  done
+}
+gitcheck
+
+con() {
+  if [[ $1 == *"git"* ]]; then
+    git clone "$1" "$2" && cd "$2"
+  else
+    ssh "$1"
+  fi
+}
+
+alias md='mkdir -p'
 alias vmyc="ssh -l yc-user $1"
 alias vminfo="yc compute instance get --name $1"
 alias vmall="yc compute instance list"
@@ -66,6 +93,7 @@ function passwdw() {
     nano $decrypted_file
     gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
     shred -u $decrypted_file
+    chmod 700 $encrypt_file
 }
 function passwdvars() {
     local decrypted_file="/home/$USER/passwd_variable.sh"
@@ -74,6 +102,7 @@ function passwdvars() {
     nano $decrypted_file
     gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
     shred -u $decrypted_file
+    chmod 700 $encrypt_file
 }
 
 mreq(){
