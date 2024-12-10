@@ -1,3 +1,5 @@
+Walias nrem="sudo chattr +i $1"
+alias yrem="sudo chattr -i $1"
 function secretread() {
     local encrypt_file="$1"
     if [[ ! -f $encrypt_file ]]; then
@@ -112,6 +114,7 @@ function newsecret() {
     nano $1
     gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
     shred -u $file
+    chmod 700 $file.gpg
 }
 function passwdc() {
     local decrypted_file="/home/$USER/passwd"
@@ -122,20 +125,24 @@ function passwdc() {
 function passwdw() {
     local decrypted_file="/home/$USER/passwd"
     local encrypt_file="/home/$USER/passwd.gpg"
+    sudo chattr -i $encrypt_file
     gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
     nano $decrypted_file
     gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
     shred -u $decrypted_file
     chmod 700 $encrypt_file
+    sudo chattr +i $encrypt_file
 }
 function passwdvars() {
     local decrypted_file="/home/$USER/passwd_variable.sh"
     local encrypt_file="/home/$USER/passwd_variable.sh.gpg"
+    sudo chattr -i $encrypt_file
     gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
     nano $decrypted_file
     gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
     shred -u $decrypted_file
     chmod 700 $encrypt_file
+    sudo chattr +i $encrypt_file
 }
 
 mreq(){
