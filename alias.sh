@@ -1,20 +1,19 @@
 function secretread() {
-    local file="$1"
-    [[ -f $file ]] || { echo "Файл $file не найден!"; return 1; }
-    local decrypted_file="$file.out"
-    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$file"
+    local encrypt_file="$1"
+    local decrypted_file="${encrypt_file%.gpg}"
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
     less "$decrypted_file"
-    shred -u "$decrypted_file"
+    shred -u $decrypted_file
 }
 
 function secretwrite() {
-    local file="$1"
-    [[ -f $file ]] || { echo "Файл $file не найден!"; return 1; }
-    local decrypted_file="$file.out"
-    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$file"
+    local encrypt_file="$1"
+    local decrypted_file="${encrypt_file%.gpg}"
+    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$encrypt_file"
     nano "$decrypted_file"
-    gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output "$file" "$decrypted_file"
+    gpg --symmetric --batch --yes --output "$encrypt_file" "$decrypted_file"
     shred -u "$decrypted_file"
+    chmod 700 "$encrypt_file"
 }
 
 gitcheck() {
