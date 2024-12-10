@@ -1,14 +1,21 @@
 function secretread() {
     local encrypt_file="$1"
-    local decrypted_file="${encrypt_file%.gpg}"
     if [[ ! -f $encrypt_file ]]; then
         echo "Файл $encrypt_file не найден."
         return 1
     fi
+
+    if [[ ${encrypt_file: -4} != ".gpg" ]]; then
+        echo "Ошибка: файл должен иметь расширение .gpg"
+        return 1
+    fi
+
+    local decrypted_file="${encrypt_file%.gpg}"
     gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$encrypt_file" || {
         echo "Не удалось расшифровать $encrypt_file."
         return 1
     }
+    
     less "$decrypted_file"
     shred -u "$decrypted_file"
 }
