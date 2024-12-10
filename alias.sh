@@ -48,6 +48,8 @@ gitcheck
 con() {
   if [[ $1 == *"git"* ]]; then
     git clone "$1" "$2" && cd "$2"
+  elif [ ! -z "$2" ];then
+    git clone "$1" && cd "$2"
   else
     ssh "$1"
   fi
