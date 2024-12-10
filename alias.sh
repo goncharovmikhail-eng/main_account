@@ -1,3 +1,22 @@
+function secretread() {
+    local file="$1"
+    [[ -f $file ]] || { echo "Файл $file не найден!"; return 1; }
+    local decrypted_file="${file%.gpg}"
+    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$file"
+    less "$decrypted_file"
+    shred -u "$decrypted_file"
+}
+
+function secretwrite() {
+    local file="$1"
+    [[ -f $file ]] || { echo "Файл $file не найден!"; return 1; }
+    local decrypted_file="${file%.gpg}"
+    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$file"
+    nano "$decrypted_file"
+    gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output "$file" "$decrypted_file"
+    shred -u "$decrypted_file"
+}
+
 gitcheck() {
   local answer="full"
   find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
@@ -77,6 +96,12 @@ function newsecret() {
     local file="$1"
     nano $1
     gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
+    shred -u $file
+}
+function secretread() {
+    local file="$1"
+    gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
+    less $1
     shred -u $file
 }
 function passwdc() {
