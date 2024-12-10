@@ -1,4 +1,4 @@
-Walias nrem="chmod 700 $1 && sudo chattr +i $1"
+alias nrem="chmod 700 $1 && sudo chattr +i $1"
 alias yrem="sudo chattr -i $1"
 function secretread() {
     local encrypt_file="$1"
