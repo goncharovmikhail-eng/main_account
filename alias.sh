@@ -5,9 +5,8 @@ gitcheck() {
     cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
     if [[ -n $(git status --porcelain) ]]; then
       echo "Незакоммиченные изменения найдены в $dir."
-      read -r answer
-        git add . && git commit -m "$answer"
-        echo "Изменения закоммичены в $dir. с сообщением full. Не забывай комитить"
+      git add . && git commit -m "$answer" && git push
+      echo "Изменения закоммичены в $dir. с сообщением full. Не забывай комитить"
     else
       echo "Нет незакоммиченных изменений в $dir."
     fi
