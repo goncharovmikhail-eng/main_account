@@ -10,7 +10,7 @@ function secretread() {
         return 1
     fi
 
-    local decrypted_file="${encrypt_file%.gpg}"
+    local decrypted_file="${encrypt_file.out}"
     gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file || {
         echo "Не удалось расшифровать $encrypt_file."
         return 1
