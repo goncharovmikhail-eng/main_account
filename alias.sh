@@ -1,3 +1,8 @@
+function gpgrest {
+    echo "gpgconf --kill gpg-agent"
+    echo "gpgconf --launch gpg-agent"
+}
+gpgrest
 function nrem {
     chmod 700 $1
     sudo chattr +i $1
