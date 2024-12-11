@@ -1,3 +1,5 @@
+alias help="less /home/$USER/.zshrc"
+alias helpw="nano /home/$USER/.zshrc"
 function gpgrest {
     echo "gpgconf --kill gpg-agent"
     echo "gpgconf --launch gpg-agent"
