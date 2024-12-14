@@ -1,3 +1,38 @@
+search_host() {
+    # Функция для поиска машин, если передаётся один параметр,
+    # и ОС, если имя ОС передаётся вторым параметром
+    # Пример 1: search_host vostok
+    # Пример 2: search_host run centos:7
+    # Пример 2: search_host run bullseye
+    # Если из под jump-а, то можно первый массив переделать на локальные адреса гипервизоров (кроме mari)
+    # Для нормальной работы, в агенте д.б. ключ от используемого пользователя
+    LIST_IP=("95.213.175.58" "95.213.175.59" "95.213.175.60" "95.143.190.178" "84.38.185.166")
+    LIST_NAME=("anna" "leeloo" "daisy" "milena" "mari")
+    SSH_USER='mcart'
+    if [[ $2 ]]; then
+        for ((i=1; i<=${#LIST_IP[@]}; i++)); do
+            LIST_VM=$(ssh -o StrictHostKeyChecking=no $SSH_USER@$LIST_IP[$i] "sudo qm list | grep $1 | awk '{print \$2}' | xargs")
+            LIST_VM_ARRAY=($(echo $LIST_VM | tr " " "\n" | xargs))
+            RESULT=""
+            for ((j=1; j<=${#LIST_VM_ARRAY[@]}; j++)); do
+                if [[ ($(ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 -J $LIST_IP[$i] $SSH_USER@$LIST_VM_ARRAY[$j] "cat /etc/os-release | grep $2")) ]]; then
+                    RESULT+=($LIST_VM_ARRAY[$j])
+                fi
+            done
+            echo '----------------------------------------------------'
+            for ((k=2; k<=${#RESULT[@]}; k++)); do
+                echo 'на гипервизоре '$LIST_NAME[$i]' обнаружен '$2' на машине '$RESULT[$k]
+            done
+            echo '----------------------------------------------------'
+        done
+    else
+        for ((n=1; n<=${#LIST_IP[@]}; n++)); do
+            LIST_VM=$(ssh -o StrictHostKeyChecking=no $SSH_USER@$LIST_IP[$n] "hostname && sudo qm list | grep $1")
+            echo $LIST_VM
+            echo '----------------------------------------------------'
+        done
+    fi
+}
 alias ansvars="ansible-inventory --list --yaml | less"
 alias help="less /home/$USER/helpfull"
 alias helpw="nano /home/$USER/helpfull"
