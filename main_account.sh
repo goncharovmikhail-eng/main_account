@@ -65,5 +65,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
 else
     echo "gpg pass"
 fi
+pip install --upgrade cryptography pyOpenSSL
+pip install --upgrade ansible
 
 echo "Настройка завершена. Перезапустите терминал, чтобы применить изменения."

@@ -1,3 +1,4 @@
+alias ansvars="ansible-inventory --list --yaml | less"
 alias help="less /home/$USER/helpfull"
 alias helpw="nano /home/$USER/helpfull"
 function gpgrest {
