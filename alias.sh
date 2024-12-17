@@ -226,8 +226,8 @@ alias life="cd ~/life && ls -lah"
 alias work="cd ~/work && ls -lah"
 alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
-alias pj="cd /home/$USER/mcart/project/ && ls -lah"
-alias ro="cd /home/$USER/mcart/roles/ && ls -lah"
+alias pj="cd /home/$USER/work/project/ && ls -lah"
+alias ro="cd /home/$USER/work/roles/ && ls -lah"
 alias gs="git status"
 #work
 alias daisy='ssh mcart@95.213.175.60'
