@@ -1,3 +1,4 @@
+alias gitupdate="git fetch && git pull"
 search_host() {
     # Функция для поиска машин, если передаётся один параметр,
     # и ОС, если имя ОС передаётся вторым параметром
@@ -92,6 +93,14 @@ gitcheck() {
   done
 }
 gitcheck
+gitupdate() {
+  find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
+    echo "Проверяем $dir..."
+    cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
+    git fetch && git pull 
+    cd - >/dev/null || exit
+    done
+}
 
 con() {
   if [[ $1 == *"git"* ]]; then
