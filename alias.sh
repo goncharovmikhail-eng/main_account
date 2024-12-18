@@ -98,6 +98,11 @@ gitupdate() {
     echo "Проверяем $dir..."
     cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
     
+gitupdate() {
+  find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
+    echo "Проверяем $dir..."
+    cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
+    
     if git fetch && git pull; then
       echo "Обновление $dir выполнено успешно."
     else
@@ -107,6 +112,16 @@ gitupdate() {
     cd - >/dev/null || exit
   done
 }
+    if git fetch && git pull; then
+      echo "Обновление $dir выполнено успешно."
+    else
+      echo "Ошибка обновления $dir."
+    fi
+    
+    cd - >/dev/null || exit
+  done
+}
+gitupdate
 
 con() {
   if [[ $1 == *"git"* ]]; then
