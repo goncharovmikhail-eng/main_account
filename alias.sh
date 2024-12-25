@@ -1,4 +1,5 @@
 alias gitupdateonce="git fetch && git pull"
+alias worktask="nano /home/$USER/work/task"
 search_host() {
     # Функция для поиска машин, если передаётся один параметр,
     # и ОС, если имя ОС передаётся вторым параметром
