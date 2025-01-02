@@ -1,11 +1,50 @@
 #general
-#sequer
-#git
-#ansible
-#yc
-alias passwdg="cat /dev/urandom |tr -dc A-Za-z0-9 | head -c 40"
-alias gituponce="git fetch && git pull"
+alias life="cd ~/life && ls -lah"
+alias work="cd ~/work && ls -lah"
+alias ll='ls -lah'
+alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
+alias pj="cd /home/$USER/work/project/ && ls -lah"
+alias ro="cd /home/$USER/work/roles/ && ls -lah"
+alias ltasks="nano /home/goncharov/life/main_account/ltasks"
+alias wtasks="nano /home/goncharov/work/wtasks"
+alias md='mkdir -p'
 alias worktask="nano /home/$USER/work/task"
+alias help="less /home/$USER/helpfull"
+alias helpw="nano /home/$USER/helpfull"
+
+function ii() {
+        echo -e "\nВы находитесь на ${RED}$HOSTNAME ($(hostname -f))"
+        echo -e "\nДополнительная информация:$NC" ; uname -a
+        echo -e "\n${RED}В системе работают пользователи:$NC" ; w -h
+        echo -e "\n${RED}Дата:$NC" ; date '+%d.%m.%Y %H:%M:%S'
+        echo -e "\n${RED}Время, прошедшее с момента последней перезагрузки:$NC" ; uptime| sed 's/^[ \t]*//;s/[ \t]*$//'
+        echo -e "\n${RED}Память:$NC" ; free
+        GW=$(ip route | awk '/default/ { print $3 }')
+        echo -e "\n${RED}Основной шлюз:$NC" ; echo ${GW}
+}
+
+hg(){
+if [ ! -z "$3" ];then
+history | grep -i $1 | grep -i $2 | grep -i $3
+elif [ ! -z "$2" ];then
+history | grep -i $1 | grep -i $2
+else
+history | grep -i $1
+fi
+}
+
+con() {
+  if [[ $1 == *"git"* ]]; then
+    if [[ -n "$2" ]]; then
+      git clone "$1" "$2" && cd "$2"
+    else
+      git clone "$1"
+    fi
+  else
+    ssh "$1"
+  fi
+}
+
 search_host() {
     # Функция для поиска машин, если передаётся один параметр,
     # и ОС, если имя ОС передаётся вторым параметром
@@ -41,9 +80,8 @@ search_host() {
         done
     fi
 }
-alias ansvars="ansible-inventory --list --yaml | less"
-alias help="less /home/$USER/helpfull"
-alias helpw="nano /home/$USER/helpfull"
+#sequer
+alias passwdg="cat /dev/urandom |tr -dc A-Za-z0-9 | head -c 40"
 function gpgrest {
     echo "gpgconf --kill gpg-agent"
     echo "gpgconf --launch gpg-agent"
@@ -84,6 +122,45 @@ function secretwrite() {
     chmod 700 "$encrypt_file"
 }
 
+function newsecret() {
+    local file="$1"
+    nano $1
+    gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
+    shred -u $file
+    chmod 700 $file.gpg
+}
+function passwdc() {
+    local decrypted_file="/home/$USER/passwd"
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
+    cat $decrypted_file | grep $1
+    shred -u $decrypted_file
+}
+function passwdw() {
+    local decrypted_file="/home/$USER/passwd"
+    local encrypt_file="/home/$USER/passwd.gpg"
+    sudo chattr -i $encrypt_file
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
+    nano $decrypted_file
+    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
+    shred -u $decrypted_file
+    chmod 700 $encrypt_file
+    sudo chattr +i $encrypt_file
+}
+function passwdvars() {
+    local decrypted_file="/home/$USER/passwd_variable.sh"
+    local encrypt_file="/home/$USER/passwd_variable.sh.gpg"
+    sudo chattr -i $encrypt_file
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
+    nano $decrypted_file
+    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
+    shred -u $decrypted_file
+    chmod 700 $encrypt_file
+    sudo chattr +i $encrypt_file
+}
+
+#git
+alias gituponce="git fetch && git pull"
+alias gs="git status"
 gitcheck() {
   local answer="full"
   find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
@@ -100,6 +177,31 @@ gitcheck() {
   done
 }
 gitcheck
+
+gitnew() {
+    if [ -z "$1" ]; then
+        echo "Usage: git_init_push <repository_url>"
+        return 1
+    fi
+
+    git init
+    touch .gitignore README.md
+    git add .
+    git commit -m "first commit"
+    git branch -M main
+    git remote add origin "$1"
+    git push -u origin main
+}
+
+gitpush() {
+    if [ -z "$1" ]; then
+        echo "describe the changes"
+        return 1
+    fi
+    git add .
+    git commit -m "$1"
+    git push
+}
 gitupdate() {
   find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
     echo "Проверяем $dir..."
@@ -115,19 +217,24 @@ gitupdate() {
 }
 gitupdate
 
-con() {
-  if [[ $1 == *"git"* ]]; then
-    if [[ -n "$2" ]]; then
-      git clone "$1" "$2" && cd "$2"
-    else
-      git clone "$1"
-    fi
+#ansible
+alias ansvars="ansible-inventory --list --yaml | less"
+alias req-dev='rm -rf ./roles ; ansible-galaxy install -r requirements-dev.yml -f -v'
+mreq(){
+  rm -rf ./roles
+  cat requirements.yml | grep -v ^# | grep https://gitlab.mcart.ru > /dev/null 2>&1
+  if [ $? -eq 1 ]; then
+    ansible-galaxy install -r requirements.yml -f -v
   else
-    ssh "$1"
+    cat requirements.yml | sed 's/https:\/\/gitlab.mcart.ru\//git@gitlab.mcart.ru:/g' > /tmp/req.yml
+    ansible-galaxy install -r /tmp/req.yml -f -v
+    rm -f /tmp/req.yml
   fi
 }
 
-alias md='mkdir -p'
+#yc
+alias sqlstart="yc managed-postgresql cluster start $1 --async"
+alias sqlstop="yc managed-postgresql cluster stop $1 --async"
 alias vmyc="ssh -l yc-user $1"
 alias vminfo="yc compute instance get --name $1"
 alias vmall="yc compute instance list"
@@ -175,96 +282,6 @@ vmycdel() {
   echo "Ошибка: не удалось удалить ВМ '$INSTANCE_NAME'."
 }
 
-alias ltasks="nano /home/goncharov/life/main_account/ltasks"
-alias wtasks="nano /home/goncharov/work/wtasks"
-function newsecret() {
-    local file="$1"
-    nano $1
-    gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
-    shred -u $file
-    chmod 700 $file.gpg
-}
-function passwdc() {
-    local decrypted_file="/home/$USER/passwd"
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
-    cat $decrypted_file | grep $1
-    shred -u $decrypted_file
-}
-function passwdw() {
-    local decrypted_file="/home/$USER/passwd"
-    local encrypt_file="/home/$USER/passwd.gpg"
-    sudo chattr -i $encrypt_file
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
-    nano $decrypted_file
-    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
-    shred -u $decrypted_file
-    chmod 700 $encrypt_file
-    sudo chattr +i $encrypt_file
-}
-function passwdvars() {
-    local decrypted_file="/home/$USER/passwd_variable.sh"
-    local encrypt_file="/home/$USER/passwd_variable.sh.gpg"
-    sudo chattr -i $encrypt_file
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
-    nano $decrypted_file
-    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
-    shred -u $decrypted_file
-    chmod 700 $encrypt_file
-    sudo chattr +i $encrypt_file
-}
-
-mreq(){
-  rm -rf ./roles
-  cat requirements.yml | grep -v ^# | grep https://gitlab.mcart.ru > /dev/null 2>&1
-  if [ $? -eq 1 ]; then
-    ansible-galaxy install -r requirements.yml -f -v
-  else
-    cat requirements.yml | sed 's/https:\/\/gitlab.mcart.ru\//git@gitlab.mcart.ru:/g' > /tmp/req.yml
-    ansible-galaxy install -r /tmp/req.yml -f -v
-    rm -f /tmp/req.yml
-  fi
-}
-alias req-dev='rm -rf ./roles ; ansible-galaxy install -r requirements-dev.yml -f -v'
-function ii() {
-        echo -e "\nВы находитесь на ${RED}$HOSTNAME ($(hostname -f))"
-        echo -e "\nДополнительная информация:$NC" ; uname -a
-        echo -e "\n${RED}В системе работают пользователи:$NC" ; w -h
-        echo -e "\n${RED}Дата:$NC" ; date '+%d.%m.%Y %H:%M:%S'
-        echo -e "\n${RED}Время, прошедшее с момента последней перезагрузки:$NC" ; uptime| sed 's/^[ \t]*//;s/[ \t]*$//'
-        echo -e "\n${RED}Память:$NC" ; free
-        GW=$(ip route | awk '/default/ { print $3 }')
-        echo -e "\n${RED}Основной шлюз:$NC" ; echo ${GW}
-}
-hg(){
-if [ ! -z "$3" ];then
-history | grep -i $1 | grep -i $2 | grep -i $3
-elif [ ! -z "$2" ];then
-history | grep -i $1 | grep -i $2
-else
-history | grep -i $1
-fi
-}
-alias life="cd ~/life && ls -lah"
-alias work="cd ~/work && ls -lah"
-alias ll='ls -lah'
-alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
-alias pj="cd /home/$USER/work/project/ && ls -lah"
-alias ro="cd /home/$USER/work/roles/ && ls -lah"
-alias gs="git status"
-#work
-alias daisy='ssh mcart@95.213.175.60'
-alias workcloud="yc init --federation-id=bpf7ckgu1acbcas8na7r"
-alias tasksc="cat ~/mcart/tasks"
-alias tasksw="nano ~/mcart/tasks"
-alias aliasw="nano ~/life/main_account/alias.sh"
-alias aliasc="cat ~/life/main_account/alias.sh | grep $1"
-#alias passwdc="cat ~/passwd | grep $1"
-#alias passwdw="nano ~/passwd"
-alias infrawork="cd /home/goncharov/mcart/mcart-infrastructure"
-alias jump="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
-alias mcart="cd /home/goncharov/mcart/"
-alias sqlstart="yc managed-postgresql cluster start $1 --async"
-alias sqlstop="yc managed-postgresql cluster stop $1 --async"
 
 sqlcreate() {
     # Переменные для настроек
@@ -310,27 +327,15 @@ sqldel() {
     --async
 }
 
-gitnew() {
-    if [ -z "$1" ]; then
-        echo "Usage: git_init_push <repository_url>"
-        return 1
-    fi
-
-    git init
-    touch .gitignore README.md
-    git add .
-    git commit -m "first commit"
-    git branch -M main
-    git remote add origin "$1"
-    git push -u origin main
-}
-
-gitpush() {
-    if [ -z "$1" ]; then
-        echo "describe the changes"
-        return 1
-    fi
-    git add .
-    git commit -m "$1"
-    git push
-}
+#work
+alias daisy='ssh mcart@95.213.175.60'
+alias workcloud="yc init --federation-id=bpf7ckgu1acbcas8na7r"
+alias tasksc="cat ~/mcart/tasks"
+alias tasksw="nano ~/mcart/tasks"
+alias aliasw="nano ~/life/main_account/alias.sh"
+alias aliasc="cat ~/life/main_account/alias.sh | grep $1"
+#alias passwdc="cat ~/passwd | grep $1"
+#alias passwdw="nano ~/passwd"
+alias infrawork="cd /home/goncharov/mcart/mcart-infrastructure"
+alias jump="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
+alias mcart="cd /home/goncharov/mcart/"
