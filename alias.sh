@@ -1,4 +1,10 @@
-alias gitupdateonce="git fetch && git pull"
+#general
+#sequer
+#git
+#ansible
+#yc
+alias passwdg="cat /dev/urandom |tr -dc A-Za-z0-9 | head -c 40"
+alias gituponce="git fetch && git pull"
 alias worktask="nano /home/$USER/work/task"
 search_host() {
     # Функция для поиска машин, если передаётся один параметр,
