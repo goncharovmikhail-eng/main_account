@@ -247,10 +247,12 @@ alias sqlstop="yc managed-postgresql cluster stop $1 --async"
 alias vmyc="ssh -l yc-user $1"
 alias vminfo="yc compute instance get --name $1"
 alias vmall="yc compute instance list"
+
 vmycr() {
-  IMAGE_ID="fd8pkn4ct4ofk1o43m2b" 
+#  IMAGE_ID="fd8pkn4ct4ofk1o43m2b"  для дома
+  IMAGE_ID="fd8kucl0qo9ae6pjqadu" # centos8 work
   INSTANCE_NAME="$1"        
-  ZONE="ru-central1-b"      
+  ZONE="ru-central1-a"      
 
   yc compute instance create \
     --name $INSTANCE_NAME \
@@ -260,10 +262,12 @@ vmycr() {
     --memory 4GB \
     --cores 2 \
     --core-fraction 20 \
-    --network-interface subnet-name=default-ru-central1-b,nat-ip-version=ipv4 \
-    --service-account-id ajegk5u8vber4anhht1v \
+    --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+   # --service-account-id ajegk5u8vber4anhht1v \
+    --service-account-id ajeha6u0luu5hhpe9vnu \
     --preemptible \
-    --ssh-key /home/$USER/.ssh/life/life.pub \
+    --ssh-key /home/$USER/.ssh/work/mcart_deploy \
+# --ssh-key /home/$USER/.ssh/life/life.pub \
     --async
 }
 
