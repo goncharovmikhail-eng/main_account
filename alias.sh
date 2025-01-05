@@ -248,9 +248,9 @@ alias vmyc="ssh -l yc-user $1"
 alias vminfo="yc compute instance get --name $1"
 alias vmall="yc compute instance list"
 
-vmycr() {
 #  IMAGE_ID=fd8pkn4ct4ofk1o43m2b"  для дома
-  IMAGE_ID="fd8kucl0qo9ae6pjqadu" # centos8 work
+vmycr() {
+  IMAGE_ID="fd8kucl0qo9ae6pjqadu" # centos9 work
   INSTANCE_NAME="$1"        
   ZONE="ru-central1-a"      
 
