@@ -1,4 +1,5 @@
 #general
+alias crsh="touch $1.sh && chmod 744 $1.sh && echo '#!/bin/bash' > $1.sh && nano $1.sh"
 alias life="cd ~/life && ls -lah"
 alias work="cd ~/work && ls -lah"
 alias ll='ls -lah'
