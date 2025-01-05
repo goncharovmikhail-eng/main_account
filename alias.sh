@@ -268,7 +268,8 @@ vmycr() {
     --preemptible \
     --ssh-key /home/$USER/.ssh/work/mcart_deploy \
 # --ssh-key /home/$USER/.ssh/life/life.pub \
-    --async
+    --async \
+    --force
 }
 
 vmycstop() {
