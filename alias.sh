@@ -257,12 +257,12 @@ vmycr() {
   yc compute instance create \
     --name $INSTANCE_NAME \
     --zone $ZONE \
-    --create-disk image-id=$IMAGE_ID,size=20GB,type=network-hdd \
+    --create-disk image-id=fd8kucl0qo9ae6pjqadu,size=20GB,type=network-hdd \
     --hostname $INSTANCE_NAME \
     --memory 4GB \
     --cores 2 \
     --core-fraction 20 \
-    --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+    --network-interface subnet-name=net-2-ru-central1-a,nat-ip-version=ipv4 \
    # --service-account-id ajegk5u8vber4anhht1v \
     --service-account-id ajeha6u0luu5hhpe9vnu \
     --preemptible \
