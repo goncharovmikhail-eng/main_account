@@ -1,5 +1,5 @@
 #general
-alias crsh="touch $1.sh && chmod 744 $1.sh && echo '#!/bin/bash' > $1.sh && nano $1.sh"
+alias res="source ~/.zshrc"
 alias life="cd ~/life && ls -lah"
 alias work="cd ~/work && ls -lah"
 alias ll='ls -lah'
@@ -12,6 +12,14 @@ alias md='mkdir -p'
 alias worktask="nano /home/$USER/work/task"
 alias help="less /home/$USER/helpfull"
 alias helpw="nano /home/$USER/helpfull"
+
+function crsh() {
+  local filename="${1}.sh"
+  touch "$filename" 
+  chmod 744 "$filename"
+  echo '#!/bin/bash' > "$filename"
+  nano "$filename"
+}
 
 function ii() {
         echo -e "\nВы находитесь на ${RED}$HOSTNAME ($(hostname -f))"
