@@ -90,7 +90,7 @@ search_host() {
     fi
 }
 #sequer
-alias passwdg="cat /dev/urandom |tr -dc A-Za-z0-9 | head -c 40"
+alias passwdg="cat /dev/urandom |tr -dc A-Za-z0-9 | head -c $1"
 function gpgrest {
     echo "gpgconf --kill gpg-agent"
     echo "gpgconf --launch gpg-agent"
