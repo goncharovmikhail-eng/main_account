@@ -170,6 +170,37 @@ function passwdvars() {
 #git
 alias gituponce="git fetch && git pull"
 alias gs="git status"
+gitdelb() {
+if [ -z "$1" ]; then
+  echo "Ошибка: не указано имя ветки для удаления."
+  exit 1
+fi
+name_branch="origin/$1"
+local_branch="$1"
+if ! git show-ref --verify --quiet refs/heads/$local_branch; then
+  echo "Ошибка: локальная ветка '$local_branch' не существует."
+  exit 1
+fi
+echo "Переключаемся на ветку main..."
+git checkout main
+if [ $? -ne 0 ]; then
+  echo "Ошибка: не удалось переключиться на ветку main."
+  exit 1
+fi
+echo "Удаляем локальную ветку '$local_branch'..."
+git branch -D $local_branch
+if [ $? -ne 0 ]; then
+  echo "Ошибка: не удалось удалить локальную ветку '$local_branch'."
+  exit 1
+fi
+echo "Удаляем удаленную ветку '$name_branch'..."
+git push origin --delete $local_branch
+if [ $? -ne 0 ]; then
+  echo "Ошибка: не удалось удалить удаленную ветку '$name_branch'."
+  exit 1
+fi
+echo "Ветка '$name_branch' успешно удалена."
+}
 gitcheck() {
   local answer="full"
   find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
