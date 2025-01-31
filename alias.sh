@@ -96,7 +96,7 @@ function gpgrest {
     echo "gpgconf --launch gpg-agent"
 }
 gpgrest
-function nrem {
+function rem {
     chmod 700 $1
     sudo chattr +i $1
 }
