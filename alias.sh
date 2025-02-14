@@ -30,6 +30,7 @@ function ii() {
         echo -e "\n${RED}Память:$NC" ; free
         GW=$(ip route | awk '/default/ { print $3 }')
         echo -e "\n${RED}Основной шлюз:$NC" ; echo ${GW}
+        
 }
 
 hg(){
