@@ -42,7 +42,7 @@ history | grep -i $1
 fi
 }
 
-con() {
+c() {
   if [[ $1 == *"git"* ]]; then
     if [[ -n "$2" ]]; then
       git clone "$1" "$2" && cd "$2"
