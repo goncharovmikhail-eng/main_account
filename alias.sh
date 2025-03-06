@@ -240,7 +240,7 @@ gitcheck() {
     cd - >/dev/null || exit
   done
 }
-gitcheck
+#gitcheck
 
 gitnew() {
     if [ -z "$1" ]; then
@@ -279,7 +279,7 @@ gitupdate() {
     cd - >/dev/null || exit
   done
 }
-gitupdate
+#gitupdate
 
 #ansible
 alias ansvars="ansible-inventory --list --yaml | less"
