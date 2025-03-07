@@ -1,4 +1,5 @@
 #general
+alias temp="/home/goncharov/work/project/temp"
 alias res="source ~/.zshrc"
 alias life="cd ~/life && ls -lah"
 alias work="cd ~/work && ls -lah"
@@ -11,7 +12,7 @@ alias wtasks="nano /home/goncharov/work/wtasks"
 alias md='mkdir -p'
 alias worktask="nano /home/$USER/work/task"
 alias help="less /home/$USER/helpfull"
-alias helpw="nano /home/$USER/helpfull"
+alias helpw="nano /home/$USER/life/main_account/helpfull"
 
 function crsh() {
   local filename="${1}.sh"

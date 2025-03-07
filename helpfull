@@ -1,0 +1,70 @@
+SQL:
+запись - строка, кортеж
+поле - элементарная единица (столбец, колонка, атрибут)
+отношение =(сумма всех кортежей и атрибутов).
+сумма всех кортежей = кардинальное число
+сумма всех атрибутов = степень отношения.
+Потенциальный ключ - комбинация атрибутов(колонка), ключ - запись в пределенной колонке(атрибут)
+есть первичный ключ (с которого начинается) и альтернативные.
+Внешний ключ - может быть составным и не обязан быть уникальным
+подмножество(набор) атрибутов(колонок) не может иметь ID 
+транзакция - операция
+
+
+для redos нужно отдельно включать /etc/yum.repos.d/ - base там установлен git
+даже при
+cert's:
+goncharov$ mkcert -key-file cs24.local.key -cert-file cs24.local  '*.cs24.local'
+cat cs24.local "$(mkcert -CAROOT)/rootCA.pem" > cs24.local.crt
+
+Для того, чтобы сделать сертификат лучше воспользоваться mkcert
+yum install nss-tools
+git clone https://github.com/FiloSottile/mkcert && cd mkcert
+ go build -ldflags "-X main.Version=$(git describe --tags)"
+cd "$(go env GOPATH)/src/github.com/FiloSottile/mkcert"
+ cd "$(go env GOPATH)/src/github.com/FiloSottile/mkcert"
+  276  go build
+  277  cd "$(go env GOPATH)/src/github.com/FiloSottile/mkcert"
+  278  go build
+./mkcert -install
+ ./mkcert test.local "*.test.local" test.test  192.168.1.127 ::1
+перемещаем сертификаты в /etc/nginx/ssl (не обязательно просто оттуда удобнее я так сделал)
+для того, чтобы nginx не жаловался на hash's в nginx.conf добавить 
+types_hash_max_size 2048;
+types_hash_bucket_size 128;
+Далее мы к каждому блоку server дописываем сертикаты и перенаправляем c http на https
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/r7-office/admin;
+    index index.html;
+
+    server_name admin.local;
+
+    # Редирект с HTTP на HTTPS
+    return 301 https://$host$request_uri;  # Перенаправление на HTTPS
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    root /var/www/r7-office/admin;
+    index index.html;
+
+    server_name admin.local;
+
+    # Укажите пути к вашему сертификату и ключу
+    ssl_certificate /etc/nginx/ssl/test.local.crt;     # Путь к сертификату
+    ssl_certificate_key /etc/nginx/ssl/test.local.key; # Путь к ключу
+
+    # Общие настройки SSL
+    ssl_protocols       TLSv1.2 TLSv1.3;                 # Поддерживаемые протоколы
+    ssl_ciphers         HIGH:!aNULL:!MD5;                 # Подходящие шифры
+пока есть warn's https не заработает и http2 - можно убрать и без него понимает, что ssl
+
+быть внимательным к серер_неймам
+запомнить на какие домены сделал сертификат и какой ip указал
+добавить ip и hostname в локальный днс. /etc/hosts
