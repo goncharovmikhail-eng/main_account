@@ -1,3 +1,16 @@
+https://support.r7-office.ru/corporate-server2024/install-r7server/ustanovka-dlja-vysokonagruzhennyh-sistem-r7-disk-arhitektura-middle/
+https://postgrespro.ru/products/download/postgrespro/latest
+
+\s - история (внутри psql)
+DELETE 
+UPDATE aircrafts SET range = 3500
+WHERE aircrafts_code = 'SU9';
+WHERE - подставка к SELECT (для выборки строк)
+ORDER BY [column] - упорядочить по возрастанию
+ create table aircrafts ( aircrafts_code char ( 3 ) not null, model text not null, range integer not null, check ( range > 0 ), primary key ( aircrafts_code ) ); - создание таблицы, через колонки и aircrafts_code - указание на первичный ключ в первой колонке (естественный)
+ INSERT INTO aircrafts ( aircrafts_code , model , range )
+demo-# VALUES ( 'SU9' , 'Sukhoi Superjet-100' , 3000); - перечень столбцов и что туда добавляем
+
 SQL:
 запись - строка, кортеж
 поле - элементарная единица (столбец, колонка, атрибут)
