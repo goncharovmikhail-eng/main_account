@@ -1,83 +1,86 @@
-https://support.r7-office.ru/corporate-server2024/install-r7server/ustanovka-dlja-vysokonagruzhennyh-sistem-r7-disk-arhitektura-middle/
-https://postgrespro.ru/products/download/postgrespro/latest
-
-\s - история (внутри psql)
-DELETE 
-UPDATE aircrafts SET range = 3500
-WHERE aircrafts_code = 'SU9';
-WHERE - подставка к SELECT (для выборки строк)
-ORDER BY [column] - упорядочить по возрастанию
- create table aircrafts ( aircrafts_code char ( 3 ) not null, model text not null, range integer not null, check ( range > 0 ), primary key ( aircrafts_code ) ); - создание таблицы, через колонки и aircrafts_code - указание на первичный ключ в первой колонке (естественный)
- INSERT INTO aircrafts ( aircrafts_code , model , range )
-demo-# VALUES ( 'SU9' , 'Sukhoi Superjet-100' , 3000); - перечень столбцов и что туда добавляем
-
-SQL:
-запись - строка, кортеж
-поле - элементарная единица (столбец, колонка, атрибут)
-отношение =(сумма всех кортежей и атрибутов).
-сумма всех кортежей = кардинальное число
-сумма всех атрибутов = степень отношения.
-Потенциальный ключ - комбинация атрибутов(колонка), ключ - запись в пределенной колонке(атрибут)
-есть первичный ключ (с которого начинается) и альтернативные.
-Внешний ключ - может быть составным и не обязан быть уникальным
-подмножество(набор) атрибутов(колонок) не может иметь ID 
-транзакция - операция
+2>&1 - перенаправление ошибок в общий файл с логами 
+& - в демо режиме (ставиться на конце команды)
 
 
-для redos нужно отдельно включать /etc/yum.repos.d/ - base там установлен git
-даже при
-cert's:
-goncharov$ mkcert -key-file cs24.local.key -cert-file cs24.local  '*.cs24.local'
-cat cs24.local "$(mkcert -CAROOT)/rootCA.pem" > cs24.local.crt
+https://yc-certification.startexam.ru/Exams/11
+PS1='\n\[\e[0;33m\][\D{%d.%m.%Y %H:%M:%S}] \[\e[01;31m\]\u@cpz-prod \[\e[1;34m\]\w\n\$ \[\e[0;32m\]\[\e[0m\]' - фича для создания различий в хостнеймах чтобы не перепутать инстансы
+если на работе устарел сертефикат
+ cat /etc/nginx/bx/site_enabled/ssl.s1.conf
+ 2365  10.01.2025 08:50:46: openssl x509 -in /home/bitrix/dehydrated/certs/portal.mcart.ru/fullchain.pem -text
+ 2366  10.01.2025 08:55:55: systemctl status nginx.service
+ 2367  10.01.2025 09:00:09: systemctl restart nginx.service
 
-Для того, чтобы сделать сертификат лучше воспользоваться mkcert
-yum install nss-tools
-git clone https://github.com/FiloSottile/mkcert && cd mkcert
- go build -ldflags "-X main.Version=$(git describe --tags)"
-cd "$(go env GOPATH)/src/github.com/FiloSottile/mkcert"
- cd "$(go env GOPATH)/src/github.com/FiloSottile/mkcert"
-  276  go build
-  277  cd "$(go env GOPATH)/src/github.com/FiloSottile/mkcert"
-  278  go build
-./mkcert -install
- ./mkcert test.local "*.test.local" test.test  192.168.1.127 ::1
-перемещаем сертификаты в /etc/nginx/ssl (не обязательно просто оттуда удобнее я так сделал)
-для того, чтобы nginx не жаловался на hash's в nginx.conf добавить 
-types_hash_max_size 2048;
-types_hash_bucket_size 128;
-Далее мы к каждому блоку server дописываем сертикаты и перенаправляем c http на https
+список юзеров:
+SELECT User, Host FROM mysql.user;
 
-server {
-    listen 80;
-    listen [::]:80;
+создать базу
+CREATE DATABASE mydatabase;
 
-    root /var/www/r7-office/admin;
-    index index.html;
+создать юзера
+CREATE USER 'myuser'@'%' IDENTIFIED BY 'mypassword';
+GRANT ALL PRIVILEGES ON 1234_261_communal_dev1.* TO '1234_261_communal'@'10.0.0.0/255.0.0.0';
 
-    server_name admin.local;
+раздача привелений
+GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser'@'%';
+GRANT PROCESS ON *.* TO 'ваш_пользователь'@'хост';
+Примените изменения:
 
-    # Редирект с HTTP на HTTPS
-    return 301 https://$host$request_uri;  # Перенаправление на HTTPS
-}
+применить
+FLUSH PRIVILEGES;
 
-server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
+показать гранты
+SHOW GRANTS FOR 'username'@'hostname';
+удалить юзера
+DROP USER 'username'@'old_host';
+# как удалить пользователя с домашней дириекторией  deluser --remove-home [name]
+#удаление ветки гита git branch -D branch_name git push origin --delete [branch_name]
+python3 -m pip install --user ansible==8.6.1 - ansible like work
+cat /etc/bitrix/mcart.conf - для комуналок, посмотреть как подключаться
 
-    root /var/www/r7-office/admin;
-    index index.html;
+wsl -d Ubuntu --set-default-user goncharov #установить пользователя по умолчанию
 
-    server_name admin.local;
+Запустив мастер c параметром clear_db=Y (например, http://localhost/?clear_db=Y), перед установкой продукта в базе данных будут удалены все таблицы и связанные с ними сущности.
+ZSH_THEME="lukerandall" - Тема Леши. тестить
 
-    # Укажите пути к вашему сертификату и ключу
-    ssl_certificate /etc/nginx/ssl/test.local.crt;     # Путь к сертификату
-    ssl_certificate_key /etc/nginx/ssl/test.local.key; # Путь к ключу
+php_info
+<?php
+phpinfo();
+?>
+Раздельное хранение сессия, которое точно работает!
 
-    # Общие настройки SSL
-    ssl_protocols       TLSv1.2 TLSv1.3;                 # Поддерживаемые протоколы
-    ssl_ciphers         HIGH:!aNULL:!MD5;                 # Подходящие шифры
-пока есть warn's https не заработает и http2 - можно убрать и без него понимает, что ssl
+'session' => [
+                'value' => [
+                        'lifetime' => 14400, // +
+                        'mode' => 'separated', // +
+                        'handlers' => [
+                                'kernel' => 'encrypted_cookies',  // +
+                                'general' => [
+                                        'type' => 'redis',
+                                        'port' => '6379',
+                                        'host' => '127.0.0.1',
+                                                ],
+                                ],
+                                ]
+                ],
 
-быть внимательным к серер_неймам
-запомнить на какие домены сделал сертификат и какой ip указал
-добавить ip и hostname в локальный днс. /etc/hosts
+
+на всякий случай где менять сервис
+/bitrix/admin/perfmon_row_edit.php?lang=ru&table_name=b_clouds_file_bucket&pk%5BID%5D=1&tabControl_b_clouds_file_bucket_active_tab=edit
+добавить к ссылке на портал
+
+
+mysqldump -u cpzdev03usr -p --default-character-set=utf8mb3 --no-tablespaces cpzdev03db > cpzdev03db_task-175034.sql
+# Увеличить диск на лету
+# debian
+growpart /dev/sr0
+resize2fs /dev/sr0
+# xfs
+xfs_growfs /dev/vdb
+
+исключения для бекапов:
+/.git
+/upload
+/bitrix/backup
+/bitrix/managed_cache
+/bitrix/tmp
+/bitrix./.git
