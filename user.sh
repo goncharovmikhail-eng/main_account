@@ -1,29 +1,48 @@
 #!/bin/bash  
 
+LOG_FILE="$(dirname "$(realpath "$0")")/script.log"  
+
+# Функция для записи сообщений в лог-файл  
+log() {  
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"  
+}  
+
 if [ "$(id -u)" -ne 0 ]; then  
-    echo "Этот скрипт должен быть запущен от пользователя root." >&2  
+    log "Этот скрипт должен быть запущен от пользователя root."  
+    echo "Ошибка." >&2  
     exit 1  
 fi  
 
-if [[ "$1" == "-n" && -n "$2" ]]; then  
-    USERNAME="$2"  
+USERNAME="root"  
+PUB_KEY="ваш_публичный_ключ"  
+
+while getopts ":u:k:" opt; do  
+    case $opt in  
+        u) USERNAME="$OPTARG" ;;  
+        k) PUB_KEY="$OPTARG" ;;  
+        \?) log "Неверный флаг: -$OPTARG"  
+            echo "Ошибка." >&2; exit 1 ;;  
+        :) log "Флаг -$OPTARG требует аргумент."  
+            echo "Ошибка." >&2; exit 1 ;;  
+    esac  
+done  
+
+# Устанавливаем путь к .ssh в зависимости от пользователя  
+if [ "$USERNAME" == "root" ]; then  
+    USER_SSH_DIR="/root/.ssh"  
 else  
-    USERNAME="root"  
+    USER_SSH_DIR="/home/$USERNAME/.ssh"  
 fi  
 
-SSH_DIR="/home/"  
-PUB_KEY="ваш_публичный_ключ"
-
 if id "$USERNAME" &>/dev/null; then  
-    echo "Пользователь $USERNAME существует. Сбрасываем пароль."  
-    passwd -d "$USERNAME"  
+    log "Пользователь $USERNAME существует. Сбрасываем пароль."  
+    passwd -d "$USERNAME" >> $LOG_FILE 
 else  
-    echo "Пользователь $USERNAME не существует. Создаём его."  
+    log "Пользователь $USERNAME не существует. Создаём его."  
     useradd -m "$USERNAME"   
     passwd -d "$USERNAME"  
 fi  
 
-USER_SSH_DIR="$SSH_DIR/$USERNAME/.ssh"  
 if [ ! -d "$USER_SSH_DIR" ]; then  
     mkdir "$USER_SSH_DIR"  
     chown "$USERNAME:$USERNAME" "$USER_SSH_DIR"  
@@ -34,10 +53,16 @@ AUTHORIZED_KEYS_FILE="$USER_SSH_DIR/authorized_keys"
 if [ ! -f "$AUTHORIZED_KEYS_FILE" ]; then  
     touch "$AUTHORIZED_KEYS_FILE"  
     chown "$USERNAME:$USERNAME" "$AUTHORIZED_KEYS_FILE"  
-    chmod 700 "$AUTHORIZED_KEYS_FILE"  
+    chmod 600 "$AUTHORIZED_KEYS_FILE"  
 fi  
 
-echo "$PUB_KEY" >> "$AUTHORIZED_KEYS_FILE"  
+# Проверяем, существует ли уже ключ в authorized_keys  
+if ! grep -qF "$PUB_KEY" "$AUTHORIZED_KEYS_FILE"; then  
+    echo "$PUB_KEY" >> "$AUTHORIZED_KEYS_FILE"  
+    log "Добавлен публичный ключ для пользователя $USERNAME."  
+else  
+    log "Публичный ключ уже существует для пользователя $USERNAME."  
+fi  
 
 SSHD_CONFIG="/etc/ssh/sshd_config"  
 {  
@@ -49,7 +74,16 @@ SSHD_CONFIG="/etc/ssh/sshd_config"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication no/' "$SSHD_CONFIG"  
 sed -i 's/^PubkeyAuthentication .*/PubkeyAuthentication yes/' "$SSHD_CONFIG"  
 
-systemctl restart sshd  
-grep -v '^\s*#' /etc/ssh/sshd_config  
+if systemctl restart sshd; then  
+    log "Служба sshd перезапущена."  
+else  
+    log "Не удалось перезапустить службу sshd."  
+    echo "Ошибка." >&2; exit 1  
+fi  
 
-visudo  
+# Убедимся, что все изменения применились  
+grep -v '^\s*#' /etc/ssh/sshd_config >> "$LOG_FILE"  
+
+visudo
+echo "ОК"  
+
