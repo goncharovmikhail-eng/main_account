@@ -1,3 +1,43 @@
+Строки
+character varying(n) - varchar
+и character(n) - chart 
+text - тип переменный которому допизды до макс кол-ва. 
+UTF-8 8 - это символы
+в типе character лишнии ячейки будут заполнены пробелами
+а в character varying - останется как есть
+INSERT INTO test (name) VALUES ($$PGDAY'17$$)
+SELECT $$PGDAY'17$$;
+test_db=# SELECT E'PGDAY\ 17';
+
+current_date - функция для получения текущей даты
+to_char - для выведения даты в другом формате 
+select to_char(current_date, 'dd-mm-yyyy');
+для того, чтобы преобразовать не текущею дату а просто, то 
+select to_char(column, 'dd-mm-yyyy') from table;
+
+время select '21:25'::time;
+select '21:25 am/pm'::time;
+SELECT current_time; - текущее время.
+select timestamp with time zone '2025-09-12 22:14:23';
+test_db=# select current_timestamp;
+       current_timestamp       
+-------------------------------
+ 2025-03-16 18:14:39.558527+03
+(1 строка)
+
+test_db=# select current_time;
+    current_time    
+--------------------
+ 18:14:48.797546+03
+(1 строка)
+
+UPDATE = DELETE + INSERT
+
+
+Если в строке встечается ', то то что после нужно отделять отдельными ''
+или испльзовать SELECT $$PGDAY'17$$; - сработает только с psql ИЛИ
+SELECT E'PGDAY\17\n';
+
 Типа переменных в SQL.
 Числовые типы:
  - smallint - int2 - snallserial
