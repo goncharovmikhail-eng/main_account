@@ -1,4 +1,5 @@
 #general
+alias w="/home/goncharov/life/r7env"
 alias temp="/home/goncharov/work/project/temp"
 alias res="source ~/.zshrc"
 alias life="cd ~/life && ls -lah"
