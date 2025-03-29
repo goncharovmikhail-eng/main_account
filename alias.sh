@@ -195,6 +195,12 @@ function passwdvars() {
 #git
 alias gituponce="git fetch && git pull"
 alias gs="git status"
+
+gbn() {
+  branch_name=${1:-develop}
+  git checkout -b "$branch_name"
+}
+
 gitdelb() {
 if [ -z "$1" ]; then
   echo "Ошибка: не указано имя ветки для удаления."
