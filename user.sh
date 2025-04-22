@@ -14,7 +14,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi  
 
 USERNAME="root"  
-PUB_KEY="ваш_публичный_ключ"  
+PUB_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM6YQpJ61F6M82pgMHEJcMEKpjOIBdZ1pOg1NtC6UNeO goncharov@PC037"  
 
 while getopts ":u:k:" opt; do  
     case $opt in  
@@ -84,6 +84,27 @@ fi
 # Убедимся, что все изменения применились  
 grep -v '^\s*#' /etc/ssh/sshd_config >> "$LOG_FILE"  
 
-visudo
-echo "ОК"  
+mkdir -p /etc/sudoers.d/
+# Создаем файл для конфигурации sudoers, если он еще не существует  
+FILE="/etc/sudoers.d/99-custom-sudo"  
+if [ ! -f "$FILE" ]; then  
+    touch "$FILE"  
+fi  
 
+# Добавляем строку для пользователя goncharov  
+echo "goncharov ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"  
+
+# Добавляем строку для группы wheel  
+echo "%wheel ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"  
+
+# Установим правильные права на файл  
+sudo chmod 440 "$FILE"
+SELINUX_CONFIG="/etc/selinux/config" 
+if grep -q "^SELINUX=" "$SELINUX_CONFIG"; then  
+    sed -i 's/^SELINUX=.*/SELINUX=permissive/' "$SELINUX_CONFIG"  
+else  
+    echo "SELINUX=permissive" >> "$SELINUX_CONFIG"  
+fi
+sudo yum update -y
+echo "ОК"  
+sudo reboot
