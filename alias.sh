@@ -13,7 +13,7 @@ alias wtasks="nano /home/goncharov/work/wtasks"
 alias md="mkdir -p"
 alias worktask="nano /home/$USER/work/task"
 alias help="less /home/$USER/helpfull"
-alias helpw="nano /home/$USER/life/main_account/helpfull"
+#alias helpw="nano /home/$USER/life/main_account/helpfull"
 
 function crsh() {
   local filename="${1}.sh"
