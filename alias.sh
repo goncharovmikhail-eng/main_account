@@ -1,4 +1,5 @@
 #general
+alias sc="nano /home/$USER/.ssh/config"
 alias w="/home/goncharov/life/r7env"
 alias temp="/home/goncharov/work/project/temp"
 alias res="source ~/.zshrc"
@@ -6,7 +7,7 @@ alias life="cd ~/life && ls -lah"
 alias work="cd ~/work && ls -lah"
 alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
-alias pj="cd /home/$USER/work/project/ && ls -lah"
+alias pj="cd /home/$USER/header_project && ls -lah"
 alias ro="cd /home/$USER/work/roles/ && ls -lah"
 alias ltasks="nano /home/goncharov/life/main_account/ltasks"
 alias wtasks="nano /home/goncharov/work/wtasks"
@@ -404,15 +405,3 @@ sqldel() {
     --async
 }
 
-#work
-alias daisy='ssh mcart@95.213.175.60'
-alias workcloud="yc init --federation-id=bpf7ckgu1acbcas8na7r"
-alias tasksc="cat ~/mcart/tasks"
-alias tasksw="nano ~/mcart/tasks"
-alias aliasw="nano ~/life/main_account/alias.sh"
-alias aliasc="cat ~/life/main_account/alias.sh | grep $1"
-#alias passwdc="cat ~/passwd | grep $1"
-#alias passwdw="nano ~/passwd"
-alias infrawork="cd /home/goncharov/mcart/mcart-infrastructure"
-alias j="ssh -A -J m.goncharov@95.213.175.59 m.goncharov@10.64.1.230"
-alias mcart="cd /home/goncharov/mcart/"
