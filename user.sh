@@ -105,6 +105,6 @@ if grep -q "^SELINUX=" "$SELINUX_CONFIG"; then
 else  
     echo "SELINUX=permissive" >> "$SELINUX_CONFIG"  
 fi
-sudo yum update -y
+sudo yum update -y || sudo apt update -y
 echo "ОК"  
 sudo reboot
