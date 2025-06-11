@@ -14,6 +14,7 @@ alias wtasks="nano /home/goncharov/work/wtasks"
 alias md="mkdir -p"
 alias worktask="nano /home/$USER/work/task"
 alias help="less /home/$USER/helpfull"
+alias dubl="grep -rH "" . | sort | uniq -d"
 #alias helpw="nano /home/$USER/life/main_account/helpfull"
 
 function crsh() {
