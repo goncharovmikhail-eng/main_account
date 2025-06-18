@@ -1,7 +1,12 @@
 #!/bin/bash
 source ~/passwd_variable.sh
-echo "Обновляем и апгрейдим систему"
-sudo apt update && sudo apt upgrade
+echo "Обновление"
+if command -v apt >/dev/null 2>&1; then
+  sudo apt update && sudo apt upgrade
+else command -v dnf >/dev/null 2>&1; then
+  sudo dnf update
+fi
+
 if ! stat /home/goncharov/.zshrc.pre-oh-my-zsh &> /dev/null; then
     echo "Zsh не найден, устанавливаем..."
     sudo apt update
