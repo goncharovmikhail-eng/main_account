@@ -31,3 +31,11 @@ It’s especially useful for setting up a fresh machine.
 - At the end, the script calls `visudo` to manually edit sudo privileges. This step still requires automation.
 
 **Important:** Must be run as `root`. There is a check inside the script to enforce this.
+
+## 🔐 form_for_passwords
+A password manager that uses an encrypted **GPG** file.
+
+**Problem**: Accessing credentials stored in a knowledge base was inconvenient, and storing them in plain `.txt` files was insecure.
+**Solution**: A convenient form-based interface with built-in functions for interaction and password decryption, including support for GPG password caching.
+
+For more details, see the `README.md` file inside the `form_for_passwords` directory.
