@@ -96,6 +96,7 @@ echo "goncharov ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"
 
 # Добавляем строку для группы wheel  
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"  
+echo "%sudo ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"
 
 # Установим правильные права на файл  
 sudo chmod 440 "$FILE"
