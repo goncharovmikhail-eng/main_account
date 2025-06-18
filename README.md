@@ -17,20 +17,27 @@ SSH keys are generated automatically:
 ---
 
 ## user.sh
-`user.sh` is designed to add public SSH keys, configure the SSH service, and disable password-based login for a user.  
+
+The `user.sh` script is designed to add public SSH keys, configure the SSH service, and disable password-based login for a specified user.  
 It’s especially useful for setting up a fresh machine.
 
 ### Logic:
-- `-U [name_user]` — if the specified user doesn’t exist, the script creates it without a password.
-- Creates the `.ssh` directory (if missing) and the `authorized_keys` file (if missing), sets proper permissions (700), and assigns ownership based on the user specified.
-- Modifies `/etc/ssh/sshd_config` to:
+- `-U [name_user]` — if the specified user does not exist, the script creates the user without setting a password.
+- Creates the `.ssh` directory (if it doesn’t exist) and the `authorized_keys` file (if it doesn’t exist).  
+  Sets permissions to 700 and assigns correct ownership to the user.
+- Edits `/etc/ssh/sshd_config` to:
   - Disable password authentication
   - Enable public key authentication
-  - Set the SSH port to 22
-  - Then restarts the SSH service.
-- At the end, the script calls `visudo` to manually edit sudo privileges. This step still requires automation.
+  - Set the SSH port to 22  
+  Then restarts the SSH service.
+- Edits `visudo` policy:
+  - Adds the user to the `wheel` group
+  - Enables passwordless `sudo` access
+- Sets SELinux to **permissive** mode.
+- Updates system packages.
 
-**Important:** Must be run as `root`. There is a check inside the script to enforce this.
+**Important:** Must be run as `root`. There is a check inside the script to enforce this.  
+Supported OS: Debian-based and Red Hat-based systems.
 
 ## 🔐 form_for_passwords
 A password manager that uses an encrypted **GPG** file.
