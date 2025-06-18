@@ -46,3 +46,24 @@ A password manager that uses an encrypted **GPG** file.
 **Solution**: A convenient form-based interface with built-in functions for interaction and password decryption, including support for GPG password caching.
 
 For more details, see the `README.md` file inside the `form_for_passwords` directory.
+
+## Script for Migrating Virtual Machines to Yandex Cloud
+This script allows you to perform one of three VM migration options in Yandex Cloud:
+
+1. **Move a VM between folders** (`move_instance`)
+2. **Import via snapshot** (`import_snapshot`)
+3. **Import via image** (`import_image`)
+
+## Requirements
+- Installed and configured [Yandex Cloud CLI](https://cloud.yandex.com/en/docs/cli/quickstart)
+- Sufficient access rights:
+  - `compute.editor` role in both folders
+  - `vps.editor` role to move the VM
+
+### Usage
+If you haven't used main_account.sh:
+```bash
+sudo mv mv_vm_yc.sh /usr/local/bin/mv_vm_yc
+mv_vm_yc
+```
+If you used it then `mv_vm_yc` is already available.

@@ -114,7 +114,7 @@ c() {
 #}
 #sequer
 alias passwdg="cat /dev/urandom |tr -dc A-Za-z0-9 | head -c $1"
-function gpgrest {
+function gpgres {
     echo "gpgconf --kill gpg-agent"
     echo "gpgconf --launch gpg-agent"
 }
