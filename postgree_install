@@ -1,8 +1,0 @@
-wget https://repo.postgrespro.ru/std/std-17/keys/pgpro-repo-add.sh
-   79  sh pgpro-repo-add.sh
-   80  sudo sh pgpro-repo-add.sh
-   81  apt-get install postgrespro-std-17
-   82  sudo apt-get install postgrespro-std-17
-инструкция https://postgrespro.ru/products/download/postgrespro/latest/
-так ставить бд 
-psql -f model.sql -U postgres

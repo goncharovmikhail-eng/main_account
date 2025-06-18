@@ -1,5 +1,6 @@
 #general
-alias sc="nano /home/$USER/.ssh/config"
+alias aliasw="vim /home/$USER/main_account/alias.sh"
+alias sc="vim /home/$USER/.ssh/config"
 alias temp="/home/goncharov/work/project/temp"
 alias res="source ~/.zshrc"
 alias ll='ls -lah'
@@ -9,14 +10,14 @@ alias ro="cd /home/$USER/header_project/roles/ && ls -lah"
 alias md="mkdir -p"
 alias help="less /home/$USER/helpfull"
 alias dubl="grep -rH "" . | sort | uniq -d"
-alias helpw="nano /home/$USER/main_account/helpfull"
+alias helpw="vim /home/$USER/main_account/helpfull"
 
 function crsh() {
   local filename="${1}.sh"
   touch "$filename" 
   chmod 744 "$filename"
   echo '#!/bin/bash' > "$filename"
-  nano "$filename"
+  vim "$filename"
 }
 
 function ii() {
@@ -147,7 +148,7 @@ function secretwrite() {
     local encrypt_file="$1"
     local decrypted_file="${encrypt_file%.gpg}"
     gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$encrypt_file"
-    nano "$decrypted_file"
+    vim "$decrypted_file"
     gpg --symmetric --batch --yes --output "$encrypt_file" "$decrypted_file"
     shred -u "$decrypted_file"
     chmod 700 "$encrypt_file"
@@ -155,7 +156,7 @@ function secretwrite() {
 
 function newsecret() {
     local file="$1"
-    nano $1
+    vim $1
     gpg --quiet --batch --yes --encrypt --recipient "gmomainsystem@gmail.com" --output $file.gpg $file
     shred -u $file
     chmod 700 $file.gpg
@@ -171,7 +172,7 @@ function passwdw() {
     local encrypt_file="/home/$USER/passwd.gpg"
     sudo chattr -i $encrypt_file
     gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
-    nano $decrypted_file
+    vim $decrypted_file
     gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
     shred -u $decrypted_file
     chmod 700 $encrypt_file
@@ -182,7 +183,7 @@ function passwdvars() {
     local encrypt_file="/home/$USER/passwd_variable.sh.gpg"
     sudo chattr -i $encrypt_file
     gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
-    nano $decrypted_file
+    vim $decrypted_file
     gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
     shred -u $decrypted_file
     chmod 700 $encrypt_file
