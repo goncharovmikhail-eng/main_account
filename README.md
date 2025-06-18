@@ -22,7 +22,7 @@ The `user.sh` script is designed to add public SSH keys, configure the SSH servi
 It’s especially useful for setting up a fresh machine.
 
 ### Logic:
-- `-U [name_user]` — if the specified user does not exist, the script creates the user without setting a password.
+- `-u [name_user]` — if the specified user does not exist, the script creates the user without setting a password.
 - Creates the `.ssh` directory (if it doesn’t exist) and the `authorized_keys` file (if it doesn’t exist).  
   Sets permissions to 700 and assigns correct ownership to the user.
 - Edits `/etc/ssh/sshd_config` to:
