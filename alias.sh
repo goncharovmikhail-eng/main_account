@@ -1,21 +1,15 @@
 #general
 alias sc="nano /home/$USER/.ssh/config"
-alias w="/home/goncharov/life/r7env"
 alias temp="/home/goncharov/work/project/temp"
 alias res="source ~/.zshrc"
-alias life="cd ~/life && ls -lah"
-alias work="cd ~/work && ls -lah"
 alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
 alias pj="cd /home/$USER/header_project && ls -lah"
-alias ro="cd /home/$USER/work/roles/ && ls -lah"
-alias ltasks="nano /home/goncharov/life/main_account/ltasks"
-alias wtasks="nano /home/goncharov/work/wtasks"
+alias ro="cd /home/$USER/header_project/roles/ && ls -lah"
 alias md="mkdir -p"
-alias worktask="nano /home/$USER/work/task"
 alias help="less /home/$USER/helpfull"
 alias dubl="grep -rH "" . | sort | uniq -d"
-#alias helpw="nano /home/$USER/life/main_account/helpfull"
+alias helpw="nano /home/$USER/main_account/helpfull"
 
 function crsh() {
   local filename="${1}.sh"
@@ -123,7 +117,7 @@ function gpgrest {
     echo "gpgconf --kill gpg-agent"
     echo "gpgconf --launch gpg-agent"
 }
-gpgrest
+gpgres
 function rem {
     chmod 700 $1
     sudo chattr +i $1
@@ -196,7 +190,7 @@ function passwdvars() {
 }
 
 #git
-alias gituponce="git fetch && git pull"
+alias gitup="git fetch && git pull"
 alias gs="git status"
 
 gbn() {
