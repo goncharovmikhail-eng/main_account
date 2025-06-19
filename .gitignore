@@ -1,3 +1,4 @@
 docker-init
 ltasks
 *.save
+test*

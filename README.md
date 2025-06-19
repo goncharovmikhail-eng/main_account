@@ -67,3 +67,51 @@ sudo mv mv_vm_yc.sh /usr/local/bin/mv_vm_yc
 mv_vm_yc
 ```
 If you used it then `mv_vm_yc` is already available.
+
+## d — Utility for running Docker containers in interactive mode && p — the same utility for Podman
+d and p are convenient CLI scripts for quickly running, saving, or removing containers.
+Useful for isolation, testing images, and working with temporary environments.
+
+🔧 Installation
+Copy the script d.sh to a system path and make it executable:
+```bash
+sudo cp d.sh /usr/local/bin/d
+sudo chmod +x /usr/local/bin/d
+```
+Now the d command is available from anywhere in the terminal.
+Usage:
+```bash
+d [-d] [-k] [-n <name>] <docker-image>
+```
+| Flag        | Description                                               |
+| ----------- | --------------------------------------------------------- |
+| `-d`        | Run disposable container: container is removed after exit |
+| `-k`        | Keep the container running after exit                     |
+| `-n <name>` | Specify container name (default: `box`)                   |
+The order of flags and arguments does not matter.
+
+🧠 Default behavior
+If neither -d nor -k is specified:
+The container state is saved as a snapshot image (docker commit)
+After exit, the container is stopped (docker stop)
+
+💡 Examples
+Run a disposable Ubuntu container:
+```bash
+d -d ubuntu
+```
+Run and save state with container stopped after exit:
+```bash
+d ubuntu
+```
+Run container named devbox, keep it running after exit:
+
+```bash
+d -k -n devbox ubuntu
+```
+
+🛠️ Dependencies
+- bash
+- docker (without sudo or configured via Docker group)
+
+**If you want, I can help translate or extend for the p Podman script as well!**
