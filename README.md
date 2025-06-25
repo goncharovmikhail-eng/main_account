@@ -118,3 +118,9 @@ do -k -n devbox ubuntu
 
 ### resize_root.sh
 The script increases the space of the root partition after adding a resource to the machine.
+
+### git_cron.sh
+Script for adding to cron. Synchronizes local and remote repositories.
+- First, do git fetch && git pull in all directories that contain .git.
+- then commit changes to these repositories and publish messages using autocommit.
+**ps. When you write crontab, I recommend redirecting 2 input signals to a log file.**
