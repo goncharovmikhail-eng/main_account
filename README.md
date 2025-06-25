@@ -115,3 +115,6 @@ do -k -n devbox ubuntu
 - docker (without sudo or configured via Docker group)
 
 **If you want, I can help translate or extend for the p Podman script as well!**
+
+### resize_root.sh
+The script increases the space of the root partition after adding a resource to the machine.
