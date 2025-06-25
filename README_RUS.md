@@ -109,3 +109,7 @@ doc -k -n devbox ubuntu
 - Сначала делает git fetch && git pull во всех директориях где есть .git
 - Потом коммитит изменения в этих репозиториях и пушит с сообщением autocommit.
 **ps. когда будете писатьв crontab, рекомендую сделать перенаправление 2 каналов вывода в лог файл.**
+exanple:
+```bash
+0 20 * * 5 ~/main_account/git_cron.sh > ~/git_report.log
+```
