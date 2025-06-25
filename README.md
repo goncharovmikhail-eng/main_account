@@ -75,13 +75,13 @@ Useful for isolation, testing images, and working with temporary environments.
 🔧 Installation
 Copy the script d.sh to a system path and make it executable:
 ```bash
-sudo cp d.sh /usr/local/bin/doc
-sudo chmod +x /usr/local/bin/doc
+sudo cp d.sh /usr/local/bin/do
+sudo chmod +x /usr/local/bin/do
 ```
 Now the d command is available from anywhere in the terminal.
 Usage:
 ```bash
-d [-d] [-k] [-n <name>] <docker-image>
+do [-d] [-k] [-n <name>] <docker-image>
 ```
 | Flag        | Description                                               |
 | ----------- | --------------------------------------------------------- |
@@ -98,16 +98,16 @@ After exit, the container is stopped (docker stop)
 💡 Examples
 Run a disposable Ubuntu container:
 ```bash
-doc -d ubuntu
+do -d ubuntu
 ```
 Run and save state with container stopped after exit:
 ```bash
-doc ubuntu
+do ubuntu
 ```
 Run container named devbox, keep it running after exit:
 
 ```bash
-doc -k -n devbox ubuntu
+do -k -n devbox ubuntu
 ```
 
 🛠️ Dependencies
