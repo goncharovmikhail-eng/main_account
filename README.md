@@ -118,6 +118,7 @@ do -k -n devbox ubuntu
 
 ### resize_root.sh
 The script increases the space of the root partition after adding a resource to the machine.
+OC: deb, astra
 
 ### git_cron.sh
 Script for adding to cron. Synchronizes local and remote repositories.
