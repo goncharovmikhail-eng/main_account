@@ -98,16 +98,20 @@ After exit, the container is stopped (docker stop)
 💡 Examples
 Run a disposable Ubuntu container:
 ```bash
-do -d ubuntu
+doc -d ubuntu
 ```
 Run and save state with container stopped after exit:
 ```bash
-do ubuntu
+doc ubuntu
 ```
 Run container named devbox, keep it running after exit:
 
 ```bash
-do -k -n devbox ubuntu
+doc -k -n devbox ubuntu
+```
+
+```bash 
+doc -k -p 8080:80 nginx
 ```
 
 🛠️ Dependencies
@@ -127,5 +131,5 @@ Script for adding to cron. Synchronizes local and remote repositories.
 **ps. When you write crontab, I recommend redirecting 2 input signals to a log file.**
 exanple:
 ```bash
-0 20 * * 5 ~/main_account/git_cron.sh > ~/git_report.log
+0 20 * * * ~/main_account/git_cron.sh > ~/git_report.log
 ```

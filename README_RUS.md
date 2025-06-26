@@ -112,5 +112,5 @@ OC: deb, astra
 **ps. когда будете писатьв crontab, рекомендую сделать перенаправление 2 каналов вывода в лог файл.**
 exanple:
 ```bash
-0 20 * * 5 ~/main_account/git_cron.sh > ~/git_report.log
+0 20 * * * ~/main_account/git_cron.sh > ~/git_report.log
 ```
