@@ -20,6 +20,14 @@ function crsh() {
   vim "$filename"
 }
 
+function crpy() {
+  local filename="${1}.sh"
+  touch "$filename"
+  chmod 744 "$filename"
+  echo '#!/usr/bin/env python3'
+  vim "$filename"
+}
+
 function ii() {
     RED='\e[31m' # Красный цвет
     NC='\e[0m'   # Сброс цвета
