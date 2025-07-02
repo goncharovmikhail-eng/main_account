@@ -7,7 +7,11 @@ alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
 alias pj="cd /home/$USER/header_project && ls -lah"
 alias ro="cd /home/$USER/header_project/roles/ && ls -lah"
-alias md="mkdir -p"
+
+function md() {
+ mkdir -p "$1" 
+ cd "$1"
+}
 alias help="less /home/$USER/helpfull"
 alias dubl="grep -rH "" . | sort | uniq -d"
 alias helpw="vim /home/$USER/main_account/helpfull"
