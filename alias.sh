@@ -1,5 +1,5 @@
 #general
-alias aliasw="vim /home/$USER/main_account/alias.sh"
+alias aliasw="nano /home/$USER/main_account/alias.sh"
 alias sc="vim /home/$USER/.ssh/config"
 alias temp="/home/goncharov/work/project/temp"
 alias res="source ~/.zshrc"
@@ -205,6 +205,7 @@ function passwdvars() {
 
 #git
 alias gitup="git fetch && git pull"
+
 alias gs="git status"
 
 gbn() {
@@ -280,7 +281,7 @@ gitpush() {
         echo "describe the changes"
         return 1
     fi
-    git add .
+    git add . 
     git commit -m "$1"
     git push
 }
@@ -310,6 +311,7 @@ gitinfo() {
   echo "Лог сохранен в $logfile"
 }
 
+alias groot="git rev-parse --git-common-dir" #определяет корневой репозиторий. если много worktree
 alias gvn="git revert HEAD"
 alias gv="git reset --soft HEAD~$1"
 alias gvh="git reset --hard HEAD~$1"

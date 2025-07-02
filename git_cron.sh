@@ -26,5 +26,18 @@ gitcheck() {
     cd - >/dev/null || exit
   done
 }
-gitupdate
-gitcheck
+gittrach() {
+  local answer="full"
+  find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
+    echo "Проверяем $dir..."
+    cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
+    git prune
+    git gc
+    fi
+    cd - >/dev/null || exit
+  done
+}
+
+gitupdate #fetch and pull
+gitcheck # send to remote repo
+gittrach # clean local git-repo
