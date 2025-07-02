@@ -323,6 +323,11 @@ grname() {
   git push origin $2
   git push origin -d -f $1
 }
+gmerge() {
+  git switch $2
+  git merge $1
+}
+
 #ansible
 alias ansvars="ansible-inventory --list --yaml | less"
 alias req-dev='rm -rf ./roles ; ansible-galaxy install -r requirements-dev.yml -f -v'
