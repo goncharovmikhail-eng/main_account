@@ -329,6 +329,10 @@ gmerge() {
   git branch -D $1
 }
 
+alias gi="git for-each-ref --sort=authordate \
+  --format='%(color:cyan)%(authordate:format:%m/%d/%Y %I:%M %p) %(align:25,left)%(refname:strip=3)%(end) %(authorname)' \
+  refs/remotes"
+
 #ansible
 alias ansvars="ansible-inventory --list --yaml | less"
 alias req-dev='rm -rf ./roles ; ansible-galaxy install -r requirements-dev.yml -f -v'
