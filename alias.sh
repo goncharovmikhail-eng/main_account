@@ -300,13 +300,14 @@ gitupdate() {
 #gitupdate
 
 gitinfo() {
+  local logfile="/home/$USER/gitinfo_$(date +%Y-%m-%d).log"
   find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
     cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
-    git log --raw >> /home/$USER/gitinfo.log
+    git log --patch >> $logfile
     cd - >/dev/null || exit
   done
-  less /home/$USER/gitinfo.log
-  echo "Лог сохранен в /home/$USER/gitinfo.log"
+  less $logfile
+  echo "Лог сохранен в $logfile"
 }
 
 alias gvn="git revert HEAD"
