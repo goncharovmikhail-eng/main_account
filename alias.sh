@@ -325,7 +325,8 @@ grname() {
 }
 gmerge() {
   git switch $2
-  git merge $1
+  git merge -d $1
+  git branch -D $1
 }
 
 #ansible
