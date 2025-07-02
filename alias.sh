@@ -299,6 +299,16 @@ gitupdate() {
 }
 #gitupdate
 
+gitinfo() {
+  find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
+    cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
+    git log --raw >> /home/$USER/gitinfo.log
+    cd - >/dev/null || exit
+  done
+  less /home/$USER/gitinfo.log
+  echo "Лог сохранен в /home/$USER/gitinfo.log"
+}
+
 alias gvn="git revert HEAD"
 alias gv="git reset --soft HEAD~$1"
 alias gvh="git reset --hard HEAD~$1"
