@@ -11,6 +11,7 @@ alias md="mkdir -p"
 alias help="less /home/$USER/helpfull"
 alias dubl="grep -rH "" . | sort | uniq -d"
 alias helpw="vim /home/$USER/main_account/helpfull"
+alias main="cd /home/$USER/main_account/ && ls -lah"
 
 function crsh() {
   local filename="${1}.sh"
@@ -21,7 +22,7 @@ function crsh() {
 }
 
 function crpy() {
-  local filename="${1}.sh"
+  local filename="${1}.py"
   touch "$filename"
   chmod 744 "$filename"
   echo '#!/usr/bin/env python3'
@@ -293,6 +294,12 @@ gitupdate() {
   done
 }
 #gitupdate
+
+alias gvn="git revert HEAD"
+alias gv="git reset --soft HEAD~$1"
+alias gvh="git reset --hard HEAD~$1"
+alias gc="git add . && git commit -m $1"
+alias grb="git rebase $1"
 
 #ansible
 alias ansvars="ansible-inventory --list --yaml | less"
