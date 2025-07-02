@@ -205,7 +205,8 @@ function passwdvars() {
 
 #git
 alias gitup="git fetch && git pull"
-
+# checkout может из коммитов делать ветки git reflog выбераю нужный и дальше checkout HEAD@{N}
+alias gbc="git checkout HEAD@{$1}"
 alias gs="git status"
 
 gbn() {
@@ -332,6 +333,10 @@ gmerge() {
 alias gi="git for-each-ref --sort=authordate \
   --format='%(color:cyan)%(authordate:format:%m/%d/%Y %I:%M %p) %(align:25,left)%(refname:strip=3)%(end) %(authorname)' \
   refs/remotes"
+
+alias gitpushforce="git push --force-with-lease" #откажется обновлять ветку, если ветка не указывает на одну и ту же ссылку или коммит
+# git rev-parse --is-inside-git-dir - я нахожусь в .git ?
+# git rev-parse --is-inside-work-tree - я нахожусь в подконтрольной ей директории
 
 #ansible
 alias ansvars="ansible-inventory --list --yaml | less"

@@ -1,0 +1,2 @@
+# git rev-parse --is-inside-git-dir - я нахожусь в .git ?
+# git rev-parse --is-inside-work-tree - я нахожусь в подконтрольной ей директории
