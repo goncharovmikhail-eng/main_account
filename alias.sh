@@ -318,6 +318,11 @@ alias gvh="git reset --hard HEAD~$1"
 alias gc="git add . && git commit -m $1"
 alias grb="git rebase $1"
 
+grname() {
+  git branch -m $1 $2
+  git push origin $2
+  git push origin -d -f $1
+}
 #ansible
 alias ansvars="ansible-inventory --list --yaml | less"
 alias req-dev='rm -rf ./roles ; ansible-galaxy install -r requirements-dev.yml -f -v'
