@@ -22,15 +22,15 @@ function crsh() {
   touch "$filename" 
   chmod 744 "$filename"
   echo '#!/bin/bash' > "$filename"
-  vim "$filename"
+  nano "$filename"
 }
 
 function crpy() {
   local filename="${1}.py"
   touch "$filename"
   chmod 744 "$filename"
-  echo '#!/usr/bin/env python3'
-  vim "$filename"
+  echo '#!/usr/bin/env python3' > "$filename"
+  nano "$filename"
 }
 
 function ii() {
