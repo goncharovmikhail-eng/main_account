@@ -1,4 +1,7 @@
 #general
+cl() {
+  echo '' > "$1" && vim "$1"
+}
 alias aliasw="nano /home/$USER/main_account/alias.sh"
 alias sc="vim /home/$USER/.ssh/config"
 alias temp="/home/goncharov/work/project/temp"
