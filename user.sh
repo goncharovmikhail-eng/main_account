@@ -91,8 +91,8 @@ if [ ! -f "$FILE" ]; then
     touch "$FILE"  
 fi  
 
-# Добавляем строку для пользователя goncharov  
-echo "goncharov ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"  
+# Добавляем строку для пользователя   
+echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"  
 
 # Добавляем строку для группы wheel  
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" | sudo tee -a "$FILE"  
