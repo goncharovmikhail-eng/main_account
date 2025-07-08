@@ -25,7 +25,7 @@ function crsh() {
   touch "$filename" 
   chmod 744 "$filename"
   echo '#!/bin/bash' > "$filename"
-  nano "$filename"
+  vim "$filename"
 }
 
 function crpy() {
@@ -33,7 +33,7 @@ function crpy() {
   touch "$filename"
   chmod 744 "$filename"
   echo '#!/usr/bin/env python3' > "$filename"
-  nano "$filename"
+  vim "$filename"
 }
 
 function ii() {
