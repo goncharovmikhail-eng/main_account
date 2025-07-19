@@ -84,7 +84,7 @@ fi
 c() {
   if [[ $1 == *"git"* ]]; then
     if [[ -n "$2" ]]; then
-      git clone "$1" "$2" && cd "$2"
+      git clone "$1" "$2" && cd "$2" && ls
     else
       git clone "$1"
     fi
