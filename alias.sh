@@ -2,9 +2,7 @@
 cl() {
   echo '' > "$1" && vim "$1"
 }
-cf() {
-    builtin cd "$@" && ls
-}
+alias zrc="vim /home/$USER/.zshrc"
 alias aliasw="nano /home/$USER/main_account/alias.sh"
 alias sc="vim /home/$USER/.ssh/config"
 alias temp="/home/goncharov/work/project/temp"
@@ -87,7 +85,7 @@ fi
 c() {
   if [[ $1 == *"git"* ]]; then
     if [[ -n "$2" ]]; then
-      git clone "$1" "$2" && cd "$2" && ls
+      git clone "$1" "$2" && cd "$2"
     else
       git clone "$1"
     fi
