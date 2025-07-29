@@ -39,6 +39,16 @@ It’s especially useful for setting up a fresh machine.
 **Important:** Must be run as `root`. There is a check inside the script to enforce this.  
 Supported OS: Debian-based and Red Hat-based systems.
 
+Use:
+```bash
+bash user.sh [options]
+```
+-u Username
+-k Add public ssh key
+-p Remove passwoed of user
+-U Update system
+-r Reboot 
+
 ## 🔐 form_for_passwords
 A password manager that uses an encrypted **GPG** file.
 
