@@ -44,9 +44,13 @@ Use:
 bash user.sh [options]
 ```
 -u Username
+
 -k Add public ssh key
+
 -p Remove passwoed of user
+
 -U Update system
+
 -r Reboot 
 
 ## 🔐 form_for_passwords
