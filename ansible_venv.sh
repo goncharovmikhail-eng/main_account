@@ -23,3 +23,4 @@ sudo apt update
 sudo apt install python3-venv -y
 python3 -m venv ~/ansible-2.9-env
 ansible --version
+echo "source ~/ansible-2.9-env/bin/activate" >> /home/$USER/.zshrc
