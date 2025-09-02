@@ -112,6 +112,17 @@ else
     echo "SELINUX=permissive" >> "$SELINUX_CONFIG"
 fi
 
+# Проверка на Astra Linux
+if [ -f /etc/astra_version ]; then
+    log "Обнаружена Astra Linux, настраиваем репозитории."
+    cat > /etc/apt/sources.list <<EOF
+deb https://download.astralinux.ru/astra/stable/1.7_x86-64/repository-main/ 1.7_x86-64 main contrib non-free
+deb https://download.astralinux.ru/astra/stable/1.7_x86-64/repository-update/ 1.7_x86-64 main contrib non-free
+deb https://download.astralinux.ru/astra/stable/1.7_x86-64/repository-extended/ 1.7_x86-64 main contrib non-free astra-ce
+EOF
+    log "Файл /etc/apt/sources.list успешно перезаписан."
+fi
+
 if $DO_UPDATE; then
     log "Обновление системы."
     if command -v yum &>/dev/null; then
@@ -132,3 +143,4 @@ if $DO_REBOOT; then
 else
     echo "ОК — без перезагрузки."
 fi
+
