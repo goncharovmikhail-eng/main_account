@@ -2,6 +2,8 @@
 cl() {
   echo '' > "$1" && vim "$1"
 }
+
+alias exp="cd ~/express/"
 alias pjd="cd /home/$USER/dotspace_project ; ls -lah"
 alias zrc="vim /home/$USER/.zshrc"
 alias aliasw="nano /home/$USER/main_account/alias.sh"
