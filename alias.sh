@@ -3,8 +3,8 @@ cl() {
   echo '' > "$1" && vim "$1"
 }
 
-alias scc="cat ~/.ssh/config"
-alias exp="cd ~/express/"
+alias scc="less ~/.ssh/config"
+alias exp="cd ~/express/ && ls"
 alias pjd="cd /home/$USER/dotspace_project ; ls -lah"
 alias zrc="vim /home/$USER/.zshrc"
 alias aliasw="nano /home/$USER/main_account/alias.sh"
