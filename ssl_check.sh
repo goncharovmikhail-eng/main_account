@@ -1,7 +1,7 @@
 #!/bin/bash
 
-CERT="fullchain.pem"
-KEY="privkey.pem"
+CERT=$1
+KEY=$2
 
 # сравниваем публичные ключи
 openssl x509 -in "$CERT" -noout -pubkey > pub_from_crt.pem
