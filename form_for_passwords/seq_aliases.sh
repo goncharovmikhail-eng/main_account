@@ -1,13 +1,13 @@
 function passwdc() {
-    local decrypted_file="~/passwd"
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
+    local decrypted_file="~/.seq/passwd"
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file ~/.seq/passwd.gpg
     cat $decrypted_file | grep $1
     shred -u $decrypted_file
 }
 
 function passwdw() {
-    local decrypted_file="~/passwd"
-    local encrypt_file="~/passwd.gpg"
+    local decrypted_file="~/.seq/passwd"
+    local encrypt_file="~/.seq/passwd.gpg"
     sudo chattr -i $encrypt_file
     gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
     nano $decrypted_file
