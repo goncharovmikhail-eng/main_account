@@ -182,23 +182,26 @@ function newsecret() {
     shred -u $file
     chmod 700 $file.gpg
 }
+
 function passwdc() {
-    local decrypted_file="/home/$USER/passwd"
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file /home/$USER/passwd.gpg
+    local decrypted_file="~/.seq/passwd"
+    gpg --quiet --batch --yes --decrypt --output $decrypted_file ~/.seq/passwd.gpg
     cat $decrypted_file | grep $1
     shred -u $decrypted_file
 }
+
 function passwdw() {
-    local decrypted_file="/home/$USER/passwd"
-    local encrypt_file="/home/$USER/passwd.gpg"
+    local decrypted_file="~/.seq/passwd"
+    local encrypt_file="~/.seq/passwd.gpg"
     sudo chattr -i $encrypt_file
     gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
-    vim $decrypted_file
+    nano $decrypted_file
     gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
     shred -u $decrypted_file
     chmod 700 $encrypt_file
     sudo chattr +i $encrypt_file
 }
+
 function passwdvars() {
     local decrypted_file="/home/$USER/passwd_variable.sh"
     local encrypt_file="/home/$USER/passwd_variable.sh.gpg"
@@ -460,4 +463,3 @@ sqldel() {
     --name "$cluster_name"
     --async
 }
-
