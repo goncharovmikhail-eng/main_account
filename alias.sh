@@ -191,15 +191,18 @@ function passwdc() {
 }
 
 function passwdw() {
-    local decrypted_file="~/.seq/passwd"
-    local encrypt_file="~/.seq/passwd.gpg"
-    sudo chattr -i $encrypt_file
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
-    nano $decrypted_file
-    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
-    shred -u $decrypted_file
-    chmod 700 $encrypt_file
-    sudo chattr +i $encrypt_file
+    local decrypted_file="$HOME/.seq/passwd"
+    local encrypt_file="$HOME/.seq/passwd.gpg"
+
+    sudo chattr -i "$encrypt_file"
+
+    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$encrypt_file"
+    nano "$decrypted_file"
+    gpg --symmetric --batch --yes --output "$encrypt_file" "$decrypted_file"
+
+    shred -u "$decrypted_file"
+    chmod 700 "$encrypt_file"
+    sudo chattr +i "$encrypt_file"
 }
 
 
