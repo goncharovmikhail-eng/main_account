@@ -3,11 +3,13 @@
 function install_gpg() {
     gpg --full-generate-key
 
-    echo "default-cache-ttl 3600" > ~/.gnupg/gpg-agent.conf  # Кэш на 1 час
-    echo "max-cache-ttl 21600" >> ~/.gnupg/gpg-agent.conf
+    # Настройка кэша пароля GPG
+    echo "default-cache-ttl 43200" > ~/.gnupg/gpg-agent.conf  # 12 часов = 43200 секунд
+    echo "max-cache-ttl 50400" >> ~/.gnupg/gpg-agent.conf    # 14 часов = 50400 секунд
 
+    # Перезапуск агента GPG при старте терминала
     echo "gpgconf --kill gpg-agent && gpgconf --launch gpg-agent" >> ~/.zshrc
-    echo "GPG setup complete."
+    echo "GPG setup complete. Password cache is set for 12 hours (max 48 hours)."
 }
 
 function newsecret() {
@@ -24,8 +26,9 @@ function newsecret() {
 }
 
 function set_aliases() {
-    echo "source $PWD/seq_aliases.sh" >> "/home/$USER/.zshrc"
-    echo "Aliases added to .zshrc."
+    echo "source $PWD/seq_aliases.sh" >> "~/.zshrc"
+    echo "source $PWD/seq_aliases.sh" >> "~/.bashrc"
+    echo "Aliases added to .zshrc and .bashrc"
 }
 
 read -p "Generate new GPG key? (y/n) " answer
