@@ -5,25 +5,25 @@ cl() {
 
 alias scc="less ~/.ssh/config"
 alias exp="cd ~/express/ && ls"
-alias pjd="cd /home/$USER/dotspace_project ; ls -lah"
-alias zrc="vim /home/$USER/.zshrc"
-alias aliasw="nano /home/$USER/main_account/alias.sh"
-alias sc="vim /home/$USER/.ssh/config"
-alias temp="/home/goncharov/work/project/temp"
+alias pjd="cd ~/dotspace_project ; ls -lah"
+alias zrc="vim ~/.zshrc"
+alias aliasw="nano ~/main_account/alias.sh"
+alias sc="vim ~/.ssh/config"
+alias temp="~/work/project/temp"
 alias res="source ~/.zshrc"
 alias ll='ls -lah'
 alias req="rm -rf ./roles ; ansible-galaxy install -r requirements.yml -f -v"
-alias pj="cd /home/$USER/header_project && ls -lah"
-alias ro="cd /home/$USER/header_project/roles/ && ls -lah"
+alias pj="cd ~/header_project && ls -lah"
+alias ro="cd ~/header_project/roles/ && ls -lah"
 
 function md() {
  mkdir -p "$1" 
  cd "$1"
 }
-alias help="less /home/$USER/helpfull"
+alias help="less ~/helpfull"
 alias dubl="grep -rH "" . | sort | uniq -d"
-alias helpw="vim /home/$USER/main_account/helpfull"
-alias main="cd /home/$USER/main_account/ && ls -lah"
+alias helpw="vim ~/main_account/helpfull"
+alias main="cd ~/main_account/ && ls -lah"
 
 function crsh() {
   local filename="${1}.sh"
@@ -202,17 +202,6 @@ function passwdw() {
     sudo chattr +i $encrypt_file
 }
 
-function passwdvars() {
-    local decrypted_file="/home/$USER/passwd_variable.sh"
-    local encrypt_file="/home/$USER/passwd_variable.sh.gpg"
-    sudo chattr -i $encrypt_file
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file $encrypt_file
-    vim $decrypted_file
-    gpg --symmetric --batch --yes --output $encrypt_file $decrypted_file
-    shred -u $decrypted_file
-    chmod 700 $encrypt_file
-    sudo chattr +i $encrypt_file
-}
 
 #git
 alias gitup="git fetch && git pull"
@@ -313,7 +302,7 @@ gitupdate() {
 #gitupdate
 
 gitinfo() {
-  local logfile="/home/$USER/gitinfo_$(date +%Y-%m-%d).log"
+  local logfile="~/gitinfo_$(date +%Y-%m-%d).log"
   find . -type d -name ".git" | sed 's/\/.git$//' | while IFS= read -r dir; do
     cd "$dir" || { echo "Не удалось перейти в директорию $dir"; continue; }
     git log --patch >> $logfile
@@ -389,7 +378,7 @@ vmycr() {
    # --service-account-id ajegk5u8vber4anhht1v \
     --service-account-id ajeha6u0luu5hhpe9vnu \
     --preemptible \
-    --ssh-key /home/$USER/.ssh/work/mcart_deploy \
+    --ssh-key ~/.ssh/work/mcart_deploy \
 # --ssh-key /home/$USER/.ssh/life/life.pub \
     --async \
     --force
