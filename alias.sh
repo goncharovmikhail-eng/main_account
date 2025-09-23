@@ -184,8 +184,8 @@ function newsecret() {
 }
 
 function passwdc() {
-    local decrypted_file="~/.seq/passwd"
-    gpg --quiet --batch --yes --decrypt --output $decrypted_file ~/.seq/passwd.gpg
+    local decrypted_file="$HOME/.seq/passwd"
+    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$HOME/.seq/passwd.gpg"
     cat $decrypted_file | grep $1
     shred -u $decrypted_file
 }
