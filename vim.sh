@@ -46,7 +46,7 @@ Plug 'preservim/nerdtree'
 " Быстрый поиск
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
+Plug 'preservim/nerdcommenter'
 " Переключение между исходником и тестом
 Plug 'tpope/vim-projectionist'
 
