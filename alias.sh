@@ -2,7 +2,7 @@
 cl() {
   echo '' > "$1" && vim "$1"
 }
-
+alias drmall="docker rm -f $(docker ps -aq)"
 alias scc="less ~/.ssh/config"
 alias exp="cd ~/express/ && ls"
 alias pjd="cd ~/dotspace_project ; ls -lah"
