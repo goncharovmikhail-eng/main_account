@@ -2,7 +2,21 @@
 cl() {
   echo '' > "$1" && vim "$1"
 }
-alias drmall="docker rm -f $(docker ps -aq)"
+
+drmallimg() {
+    images=$(docker images -aq)
+    if [ -n "$images" ]; then
+        docker rmi -f $images
+    else
+        echo "No images to remove"
+    fi
+}
+
+
+drmall() {
+    docker ps -aq | xargs -r docker rm -f
+}
+
 alias scc="less ~/.ssh/config"
 alias exp="cd ~/express/ && ls"
 alias pjd="cd ~/dotspace_project ; ls -lah"
