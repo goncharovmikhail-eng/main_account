@@ -17,6 +17,9 @@ drmall() {
     docker ps -aq | xargs -r docker rm -f
 }
 
+alias dd="docker compose down -v"
+alias du="docker compose up -d"
+alias dst="docker compose up --build"
 alias scc="less ~/.ssh/config"
 alias exp="cd ~/express/ && ls"
 alias pjd="cd ~/dotspace_project ; ls -lah"
