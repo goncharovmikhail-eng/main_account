@@ -17,6 +17,7 @@ drmall() {
     docker ps -aq | xargs -r docker rm -f
 }
 
+a
 alias cleanfile='f(){ iconv -f utf-8 -t utf-8 -c "$1" -o "$1.clean" && mv "$1.clean" "$1"; }; f' # очищает файл от скрытых символов
 alias dd="docker-compose down -v"
 alias du="docker-compose up -d"
@@ -158,6 +159,14 @@ function gpgres {
     echo "gpgconf --launch gpg-agent"
 }
 gpgres
+
+function gpgrestart {
+    echo "gpgconf --kill gpg-agent"
+    echo "gpgconf --launch gpg-agent"
+    gpg-connect-agent reloadagent /bye
+    gpg-connect-agent killagent /bye
+}
+
 function rem {
     chmod 700 $1
     sudo chattr +i $1
