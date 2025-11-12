@@ -160,6 +160,7 @@ function gpgres {
 }
 gpgres
 
+# на случай если не правильно ввел пароль
 function gpgrestart {
     echo "gpgconf --kill gpg-agent"
     echo "gpgconf --launch gpg-agent"
