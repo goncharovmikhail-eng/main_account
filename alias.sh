@@ -210,26 +210,65 @@ function newsecret() {
     chmod 700 $file.gpg
 }
 
-function passwdc() {
-    local decrypted_file="$HOME/.seq/passwd"
-    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$HOME/.seq/passwd.gpg"
-    cat $decrypted_file | grep $1
-    shred -u $decrypted_file
+passwdc() {
+    local search="$1"
+    local encrypted_file="$HOME/.seq/passwd.gpg"
+    local tmp_file
+
+    # Создаём безопасный временный файл
+    tmp_file=$(mktemp) || { echo "Не удалось создать временный файл"; return 1; }
+
+    # Расшифровываем в временный файл
+    gpg --quiet --batch --yes --decrypt --output "$tmp_file" "$encrypted_file" || {
+        echo "Ошибка при расшифровке"
+        shred -u "$tmp_file" 2>/dev/null
+        return 1
+    }
+
+    # Ищем совпадения
+    if [[ -n "$search" ]]; then
+        grep -- "$search" "$tmp_file"
+    else
+        cat "$tmp_file"
+    fi
+
+    # Безопасно уничтожаем временный файл
+    shred -u "$tmp_file" 2>/dev/null
 }
 
-function passwdw() {
-    local decrypted_file="$HOME/.seq/passwd"
-    local encrypt_file="$HOME/.seq/passwd.gpg"
+passwdw() {
+  local decrypted_file="$HOME/.seq/passwd"
+  local encrypt_file="$HOME/.seq/passwd.gpg"
+  local tmp_encrypt="$encrypt_file.tmp"
+  local bak="$encrypt_file.bak"
 
-    sudo chattr -i "$encrypt_file"
+  sudo chattr -i "$encrypt_file" 2>/dev/null || true
 
-    gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$encrypt_file"
-    nano "$decrypted_file"
-    gpg --symmetric --batch --yes --output "$encrypt_file" "$decrypted_file"
+  # Расшифровать (если возможно) — если не получилось, выйти, не трогая ничего
+  if ! gpg --quiet --batch --yes --decrypt --output "$decrypted_file" "$encrypt_file"; then
+    echo "Ошибка: не удалось расшифровать $encrypt_file — отмена."
+    return 1
+  fi
 
+  nano "$decrypted_file"
+
+  # резервная копия старого зашифрованного файла
+  if [ -f "$encrypt_file" ]; then
+    cp --preserve=all "$encrypt_file" "$bak"
+  fi
+
+  # шифруем в временный файл; если неудача — не перезаписываем
+  if ! gpg --symmetric --batch --yes --output "$tmp_encrypt" "$decrypted_file"; then
+    echo "Ошибка шифрования — исходный файл сохранён, $tmp_encrypt не создан"
     shred -u "$decrypted_file"
-    chmod 700 "$encrypt_file"
-    sudo chattr +i "$encrypt_file"
+    return 1
+  fi
+
+  mv -f "$tmp_encrypt" "$encrypt_file"
+  chmod 700 "$encrypt_file"
+  sudo chattr +i "$encrypt_file"
+  shred -u "$decrypted_file"
+  echo "OK"
 }
 
 
