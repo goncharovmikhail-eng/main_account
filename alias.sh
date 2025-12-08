@@ -17,12 +17,13 @@ drmall() {
     docker ps -aq | xargs -r docker rm -f
 }
 
+alias env_kolzovo="source venv/bin/activate"
 alias cleanfile='f(){ iconv -f utf-8 -t utf-8 -c "$1" -o "$1.clean" && mv "$1.clean" "$1"; }; f' # очищает файл от скрытых символов
 alias dd="docker-compose down -v"
 alias du="docker-compose up -d"
 alias dst="docker compose up --build"
 alias scc="less ~/.ssh/config"
-alias exp="cd ~/express/ && ls"
+alias exp="cd ~/exp_kol/ && ls"
 alias pjd="cd ~/dotspace_project ; ls -lah"
 alias zrc="vim ~/.zshrc"
 alias aliasw="nano ~/main_account/alias.sh"
