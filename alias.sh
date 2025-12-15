@@ -17,6 +17,46 @@ drmall() {
     docker ps -aq | xargs -r docker rm -f
 }
 
+alias vin_clean='find . -type f -name "*:Zone.Identifier*" -delete'
+collect() {
+    if [ -z "$1" ]; then
+        echo "Usage: collect <server>"
+        return 1
+    fi
+
+    SERVER="$1"
+    LOCAL_DIR="$HOME/exp_kol"
+    mkdir -p "$LOCAL_DIR"
+
+    echo "=== Running logs.sh on $SERVER ==="
+
+    # Запуск удалённого сбора
+    ssh "$SERVER" 'bash -s' < ~/logs.sh
+
+    # Узнаём имя архива
+    REMOTE_ARCHIVE=$(ssh "$SERVER" "ls -1t /tmp/cts_collect_*.tar.gz 2>/dev/null | head -n1")
+
+    if [ -z "$REMOTE_ARCHIVE" ]; then
+        echo "ERROR: Remote archive not found on $SERVER"
+        return 1
+    fi
+
+    BASENAME=$(basename "$REMOTE_ARCHIVE")
+    LOCAL_FILE="$LOCAL_DIR/$BASENAME"
+
+    echo "Remote archive: $REMOTE_ARCHIVE"
+    echo "Downloading to: $LOCAL_FILE"
+
+    # Скачиваем
+    scp "$SERVER:$REMOTE_ARCHIVE" "$LOCAL_FILE"
+
+    # Чистим временные файлы
+    ssh "$SERVER" "rm -rf ${REMOTE_ARCHIVE%.*} $REMOTE_ARCHIVE"
+
+    echo "Done! Saved to: $LOCAL_FILE"
+}
+
+
 alias env_kolzovo="source venv/bin/activate"
 alias cleanfile='f(){ iconv -f utf-8 -t utf-8 -c "$1" -o "$1.clean" && mv "$1.clean" "$1"; }; f' # очищает файл от скрытых символов
 alias dd="docker-compose down -v"
