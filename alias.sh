@@ -17,6 +17,7 @@ drmall() {
     docker ps -aq | xargs -r docker rm -f
 }
 
+alias dps="docker ps -a"
 alias vin_clean='find . -type f -name "*:Zone.Identifier*" -delete'
 collect() {
     if [ -z "$1" ]; then
