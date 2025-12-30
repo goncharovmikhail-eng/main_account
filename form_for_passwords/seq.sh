@@ -13,7 +13,8 @@ function install_gpg() {
 }
 
 function newsecret() {
-    local file="/home/$USER/passwd"
+
+    local file="~/.seq/passwd"
     read -p "Repeat email: " email
     nano $file
     
@@ -21,7 +22,7 @@ function newsecret() {
     
     shred -u "$file"
     chmod 700 "$file.gpg"
-    
+    mkdir -p ~/.seq
     echo "The file $file.gpg was created with permissions 700 and cannot be deleted."
 }
 
