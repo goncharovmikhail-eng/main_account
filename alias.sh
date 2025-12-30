@@ -1,4 +1,10 @@
 #general
+aliasw() {
+    nano "$HOME/main_account/alias.sh" || return
+    source "$HOME/main_account/alias.sh"
+    echo "Aliases reloaded"
+}
+
 cl() {
   echo '' > "$1" && vim "$1"
 }
@@ -19,44 +25,76 @@ drmall() {
 
 alias dps="docker ps -a"
 alias vin_clean='find . -type f -name "*:Zone.Identifier*" -delete'
-collect() {
-    if [ -z "$1" ]; then
-        echo "Usage: collect <server>"
+
+log_daily() {
+    # Проверка аргументов
+    if [ -z "${1:-}" ]; then
+        echo "Usage: collect <server> [archive_prefix]"
         return 1
     fi
 
-    SERVER="$1"
-    LOCAL_DIR="$HOME/exp_kol"
+    local SERVER="$1"
+    local ARCHIVE_PREFIX="${2:-$SERVER}"
+    local LOCAL_DIR="$HOME/exp_kol"
+    local TIMESTAMP
+    local ARCHIVE_NAME
+    local LOCAL_FILE
+
     mkdir -p "$LOCAL_DIR"
 
-    echo "=== Running logs.sh on $SERVER ==="
+    TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+    ARCHIVE_NAME="${ARCHIVE_PREFIX}_${TIMESTAMP}.tar.gz"
+    LOCAL_FILE="$LOCAL_DIR/$ARCHIVE_NAME"
 
-    # Запуск удалённого сбора
-    ssh "$SERVER" 'bash -s' < ~/logs.sh
+    echo "=== Collecting from $SERVER ==="
+    echo "Archive name: $ARCHIVE_NAME"
 
-    # Узнаём имя архива
-    REMOTE_ARCHIVE=$(ssh "$SERVER" "ls -1t /tmp/cts_collect_*.tar.gz 2>/dev/null | head -n1")
+    # Отправляем скрипт на удалённый сервер и выполняем
+    ssh "$SERVER" "bash -s -- '$ARCHIVE_NAME'" < ~/log_daily.sh
 
-    if [ -z "$REMOTE_ARCHIVE" ]; then
-        echo "ERROR: Remote archive not found on $SERVER"
-        return 1
-    fi
-
-    BASENAME=$(basename "$REMOTE_ARCHIVE")
-    LOCAL_FILE="$LOCAL_DIR/$BASENAME"
-
-    echo "Remote archive: $REMOTE_ARCHIVE"
     echo "Downloading to: $LOCAL_FILE"
+    scp "$SERVER:/tmp/$ARCHIVE_NAME" "$LOCAL_FILE"
 
-    # Скачиваем
-    scp "$SERVER:$REMOTE_ARCHIVE" "$LOCAL_FILE"
-
-    # Чистим временные файлы
-    ssh "$SERVER" "rm -rf ${REMOTE_ARCHIVE%.*} $REMOTE_ARCHIVE"
+    # Чистим временные файлы на сервере
+    ssh "$SERVER" "rm -rf /tmp/${ARCHIVE_NAME%.tar.gz} ~/$ARCHIVE_NAME"
 
     echo "Done! Saved to: $LOCAL_FILE"
 }
 
+log_weekly() {
+    # Проверка аргументов
+    if [ -z "${1:-}" ]; then
+        echo "Usage: collect <server> [archive_prefix]"
+        return 1
+    fi
+
+    local SERVER="$1"
+    local ARCHIVE_PREFIX="${2:-$SERVER}"
+    local LOCAL_DIR="$HOME/exp_kol"
+    local TIMESTAMP
+    local ARCHIVE_NAME
+    local LOCAL_FILE
+
+    mkdir -p "$LOCAL_DIR"
+
+    TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+    ARCHIVE_NAME="${ARCHIVE_PREFIX}_${TIMESTAMP}.tar.gz"
+    LOCAL_FILE="$LOCAL_DIR/$ARCHIVE_NAME"
+
+    echo "=== Collecting from $SERVER ==="
+    echo "Archive name: $ARCHIVE_NAME"
+
+    # Отправляем скрипт на удалённый сервер и выполняем
+    ssh "$SERVER" "bash -s -- '$ARCHIVE_NAME'" < ~/log_weekly.sh
+
+    echo "Downloading to: $LOCAL_FILE"
+    scp "$SERVER:/tmp/$ARCHIVE_NAME" "$LOCAL_FILE"
+
+    # Чистим временные файлы на сервере
+    ssh "$SERVER" "rm -rf /tmp/${ARCHIVE_NAME%.tar.gz} ~/$ARCHIVE_NAME"
+
+    echo "Done! Saved to: $LOCAL_FILE"
+}
 
 alias env_kolzovo="source venv/bin/activate"
 alias cleanfile='f(){ iconv -f utf-8 -t utf-8 -c "$1" -o "$1.clean" && mv "$1.clean" "$1"; }; f' # очищает файл от скрытых символов
@@ -67,7 +105,6 @@ alias scc="less ~/.ssh/config"
 alias exp="cd ~/exp_kol/ && ls"
 alias pjd="cd ~/dotspace_project ; ls -lah"
 alias zrc="vim ~/.zshrc"
-alias aliasw="nano ~/main_account/alias.sh"
 alias sc="vim ~/.ssh/config"
 alias temp="~/work/project/temp"
 alias res="source ~/.zshrc"
