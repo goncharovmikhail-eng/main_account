@@ -9,6 +9,16 @@ cl() {
   echo '' > "$1" && vim "$1"
 }
 
+swaks() {
+    local container_name="swaks"
+
+    if [ "$(docker ps -aq -f name=^/${container_name}$)" ]; then
+        docker rm -f "$container_name"
+    fi
+
+    docker run -it --name "$container_name" --rm ndru/swaks sh
+}
+
 drmallimg() {
     images=$(docker images -aq)
     if [ -n "$images" ]; then
