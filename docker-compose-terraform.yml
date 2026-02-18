@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  terraform:
+    image: hashicorp/terraform:1.14.5
+    container_name: terraform
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    environment:
+      - TF_VAR_timeweb_token=${TIMEWEB_CLOUD_TOKEN}
+    stdin_open: true
+    tty: true
