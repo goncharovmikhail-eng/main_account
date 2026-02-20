@@ -1,5 +1,6 @@
 #general
 alias bcrypt="python3 -c 'import bcrypt; print(bcrypt.hashpw(b'$1', bcrypt.gensalt()).decode())'"
+alias rocket="cd ~/rocketchat/compose/ ; ls"
 aliasw() {
     nano "$HOME/main_account/alias.sh" || return
     source "$HOME/main_account/alias.sh"
@@ -108,9 +109,9 @@ log_weekly() {
 }
 
 alias env_kolzovo="source venv/bin/activate"
-alias cleanfile='f(){ iconv -f utf-8 -t utf-8 -c "$1" -o "$1.clean" && mv "$1.clean" "$1"; }; f' # очищает файл от скрытых символов
+alias cleanfile='f(){ iconv -f utf-8 -t utf-8 -c "$1" -o "$1.clean" && mv "$1.clean" "$1"; }; f'
 alias dres="docker compose down && docker compose up -d && watch docker ps -a"
-alias dd="docker compose down -v"
+alias dd="docker compose down"
 alias du="docker compose up -d"
 alias dst="docker compose up --build"
 alias scc="less ~/.ssh/config"

@@ -37,6 +37,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     install_gpg
 fi
 
+mkdir -p ~/.seq
 read -p "Add a new file for passwd? (y/n) " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
     newsecret
