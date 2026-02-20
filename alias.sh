@@ -557,7 +557,7 @@ vmycstop() {
   echo "Ошибка: не удалось остановить ВМ '$INSTANCE_NAME'."
 }
 
-vmycdel() {
+vmdel() {
   local INSTANCE_NAME=$1
   if [[ -z $INSTANCE_NAME ]]; then
     echo "Укажите имя ВМ для удаления. Функция для yc"
@@ -568,7 +568,6 @@ vmycdel() {
   echo "ВМ '$INSTANCE_NAME' удалена." || \
   echo "Ошибка: не удалось удалить ВМ '$INSTANCE_NAME'."
 }
-
 
 sqlcreate() {
     # Переменные для настроек
@@ -611,5 +610,26 @@ sqldel() {
     local cluster_name=$1
     yc managed-postgresql cluster delete \
     --name "$cluster_name"
+    --async
+}
+create_rocket() {
+
+  IMAGE_ID="fd8i9iehquhjreg3akuu"
+  INSTANCE_NAME="rocket"
+  ZONE="ru-central1-b"
+  STATIC_IP="158.160.80.163"
+
+  yc compute instance create \
+    --name "$INSTANCE_NAME" \
+    --zone "$ZONE" \
+    --create-boot-disk image-id="$IMAGE_ID",size=50GB,type=network-ssd \
+    --hostname "$INSTANCE_NAME" \
+    --memory 2GB \
+    --cores 4 \
+    --core-fraction 20 \
+    --network-interface subnet-name=default-ru-central1-b,nat-ip-version=ipv4,nat-address="$STATIC_IP" \
+    --service-account-id ajeeu17cpt4nj163edd0 \
+    --preemptible \
+    --ssh-key ~/.ssh/test.pub \
     --async
 }
